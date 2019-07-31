@@ -64,6 +64,7 @@ import CategoryList from "./components/bookmarks/CategoryList";
 import Dropdown from "./components/common/dropdown";
 import Modal from "./components/common/modal";
 import Cookies from "js-cookie";
+import {flatCategories} from "./utils/utils.js"
 
 export default {
   components: {
@@ -87,6 +88,7 @@ export default {
     };
   },
   methods: {
+    flatCategories,
     getLink() {
       console.log("from get link", this.url);
 
@@ -154,16 +156,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
-    flatCategories(array) {
-      let result = [];
-      array.forEach(catg => {
-        result.push({ id: catg.id, name: catg.name });
-        if (catg.subCategories && catg.subCategories.length) {
-          result = result.concat(this.flatCategories(catg.subCategories));
-        }
-      });
-      return result;
     },
     createBookmark() {
       let url = "/api/bookmarks/bookmark/create/";
