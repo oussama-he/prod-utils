@@ -17,7 +17,7 @@ class BookmarkListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bookmark
-        fields = ['id', 'title', 'url', 'safe', 'favorite', 'archived']
+        fields = ['id', 'title', 'url', 'safe', 'favorited', 'archived']
         ordering = ['title']
 
 
