@@ -14,25 +14,9 @@ import CategoryItem from "./CategoryItem";
 
 export default {
   name: "CategoryList",
+  props: ['categories'],
   components: {
     CategoryItem
-  },
-  data() {
-    return {
-      categories: null
-    };
-  },
-  mounted() {
-    this.axios({
-      method: "GET",
-      url: "/api/bookmarks/categories/"
-    })
-      .then(response => {
-        this.categories = response.data;
-      })
-      .catch(error => {
-        // console.log(error);
-      });
   },
   methods: {
     categorySelected(category) {

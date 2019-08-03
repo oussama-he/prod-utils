@@ -13,12 +13,12 @@
           <div>
             <label for="category">Category</label>
             <select name id @change="selectCategory($event)">
-              <option v-for="(ctg, ctgKey) in categories" :value="ctg.id" :key="ctgKey">{{ctg.name}}</option>
+              <option v-for="(ctg, ctgKey) in flattedCategories" :value="ctg.id" :key="ctgKey">{{ctg.name}}</option>
             </select>
           </div>
           <div>
             <label for>Description</label>
-            <textarea name="description" id="description" rows="1" class="form-control"></textarea>
+            <textarea name="description" id="description" rows="1"v-model='description' class="form-control"></textarea>
           </div>
           <div class="form-check">
             <input name="safe" class="form-check-input" type="checkbox">
@@ -28,7 +28,6 @@
         </form>
       </modal>
     
-    
           <modal title="New Category" v-show="categoryModalOpened" @close="categoryModalOpened=false">
         <form action>
           <div>
@@ -36,7 +35,8 @@
             <input name="name" type="text" v-model="url" class="form-control">
           </div>
         </form>
-      </modal><navbar>
+      </modal>
+      <navbar>
       <dropdown>
         <template v-slot:dropdown-links>
           <a href="#" class="dropdown-item" @click="openModal">
@@ -49,9 +49,9 @@
       </dropdown>
     </navbar>
     <div class="main">
-      <category-list @category-selected="categorySelected"></category-list>
+      <category-list @category-selected="selectCategoryHandler" :categories='categories'></category-list>
       <div class="bookmarks-area">
-        <bookmark-list :bookmarks="bookmarks" @delete-clicked="deleteBookmark"></bookmark-list>
+        <bookmark-list :bookmarks="bookmarks" @delete-clicked="deleteBookmarkHandler"></bookmark-list>
       </div>
     </div>
   </div>
@@ -79,19 +79,26 @@ export default {
       title: "",
       url: "",
       categoryID: "",
-      bookmarks: [],
-      categories: this.getCategories(),
+      description: "",
       modalOpened: true,
       categoryModalOpened: false,
-      categories: null,
-      selectedCatg: null
     };
+  },
+  computed: {
+    categories () {
+      return this.$store.getters['bookmarks/categories']
+    },
+    flattedCategories () {
+      let catgs = this.$store.getters['bookmarks/categories']
+      return this.flatCategories(catgs)
+    },
+    bookmarks () {
+      return this.$store.getters['bookmarks/bookmarks']
+    }
   },
   methods: {
     flatCategories,
     getLink() {
-      console.log("from get link", this.url);
-
       this.axios
         .get("/api/bookmarks/get-page-title/" + this.url)
         .then(response => {
@@ -101,108 +108,42 @@ export default {
         .catch(error => {
           console.log("error when getting page title", error);
         });
-      /*
-      // this.axios.get('https://cors-anywhere.herokuapp.com/' + this.url,{
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*',
-      //     'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS'
-      //   }
-      // }) 
-      this.axios('https://cors-anywhere.herokuapp.com/' + this.url, {
-      method: 'GET',
-      mode: 'no-cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    })
-    .then(response => {
-      console.log('document title', response)
-    })
-    .catch(error => {
-      console.log('problem with this site', this.url)
-    })
-    */
     },
-    deleteBookmark(bookmark) {
+    deleteBookmarkHandler (bookmark) {
       let answer = confirm(
         `Want you to delete this bookmark: \n ${bookmark.title}`
       );
-      if (answer) {
-        let data = {
-          id: bookmark.id
-        };
-        console.log("csrf", Cookies.get("csrftoken"));
-        let headers = {
-          "X-CSRFToken": Cookies.get("csrftoken")
-        };
-        this.axios
-          .delete(`/api/bookmarks/bookmark/${bookmark.id}`, data, headers)
-          .then(response => {
-            let deletedBookmark = bookmark;
-            this.bookmarks = this.bookmarks.filter(
-              bookmark => !(bookmark.id === deletedBookmark.id)
-            );
-          });
-      }
-    },
-    getCategories() {
-      this.axios({
-        method: "GET",
-        url: "/api/bookmarks/categories/"
-      })
-        .then(response => {
-          this.categories = this.flatCategories(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (!answer) {
+        return
+        }
+      this.$store.dispatch('bookmarks/deleteBookmark', bookmark.id)
     },
     createBookmark() {
-      let url = "/api/bookmarks/bookmark/create/";
-      let csrftoken = Cookies.get("csrftoken");
-      console.log("csrf-token", csrftoken);
-      let headers = {
-        "X-CSRFToken": csrftoken
-      };
       let data = {
         title: this.title,
-        description: "desc",
         url: this.url,
-        category: this.categoryID
-      };
-      // this.axios.defaults.headers.common = {
-      //   "X-Requested-With": "XMLHttpRequest",
-      //   "X-CSRF-TOKEN": csrftoken
-      // };
-      this.axios.post(url, data, { headers }).then(response => {
-        this.cleanFields();
-      });
+        category: this.categoryID,
+        description: this.description
+      }
+      this.$store.dispatch('bookmarks/addBookmark', data)
+      this.clearFields()
     },
     openModal() {
       this.modalOpened = true;
     },
-    cleanFields() {
-      (this.url = ""), (this.title = "");
+    clearFields() {
+      (this.url = ""), (this.title = ""), (this.description = "");
     },
-    loadBookmarks(category) {
-      this.axios({
-        method: "get",
-        url: `/api/bookmarks/${category.name}/`
-      })
-        .then(response => {
-          this.bookmarks = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    categorySelected(catg) {
-      this.loadBookmarks(catg);
-      let category = this.$store.state.activeCategory;
+    selectCategoryHandler(catg) {
+      this.$store.dispatch('bookmarks/getBookmarksByCategory', catg.name)
+      this.$store.dispatch('bookmarks/changeActiveCategory', catg)
     },
     selectCategory(event) {
       this.categoryID = event.target.value;
     }
+  },
+  created () {
+    this.$store.dispatch('bookmarks/getCategories')
   }
 };
 </script>
