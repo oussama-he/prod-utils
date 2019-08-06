@@ -3,6 +3,7 @@ certifi==2019.6.16
 chardet==3.0.4
 dj-database-url==0.5.0
 Django==2.1.4
+django-cors-headers==3.0.2
 django-js-asset==1.2.2
 django-mptt==0.10.0
 djangorestframework==3.9.1
