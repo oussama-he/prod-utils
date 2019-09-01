@@ -7,8 +7,7 @@ from rest_framework import status
 from .serializers import CategorySerializer, BookmarkListSerializer, BookmarkCreateSerializer
 from .models import Category, Bookmark
 
-from .utils import get_page_title
-
+from ..utils.utils import get_page_title
 
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.filter(parent=None)
@@ -47,3 +46,11 @@ def get_page_title_view(request, url):
     page_title = get_page_title(url)
     return Response({'title': page_title})
 
+
+@api_view()
+def check_url_existing_view(request, url):
+    url_existence = False
+    queryset = Bookmark.objects.filter(url=url)
+    if queryset.exists():
+        url_existence = True
+    return Response({'url_existence': url_existence})

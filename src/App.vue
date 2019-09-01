@@ -4,7 +4,7 @@
         <form action="/bookmarks/api/" method="post" @submit.prevent="createBookmark">
           <div>
             <label>URL</label>
-            <input name="url" type="url" v-model="url" @change="getLink" class="form-control">
+            <input name="url" type="url" v-model="url" @change="onChangeUrl" class="form-control">
           </div>
           <div>
             <label for>Title</label>
@@ -18,7 +18,7 @@
           </div>
           <div>
             <label for>Description</label>
-            <textarea name="description" id="description" rows="1"v-model='description' class="form-control"></textarea>
+            <textarea name="description" id="description" rows="1" v-model='description' class="form-control"></textarea>
           </div>
           <div class="form-check">
             <input name="safe" class="form-check-input" type="checkbox">
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     flatCategories,
-    getLink() {
+    onChangeUrl() {
       this.axios
         .get("/api/bookmarks/get-page-title/" + this.url)
         .then(response => {
@@ -107,7 +107,16 @@ export default {
         })
         .catch(error => {
           console.log("error when getting page title", error);
-        });
+        })
+        
+      this.axios
+      .get(`/api/bookmarks/check-url-existence/${this.url}`)
+      .then(response => {
+        let existence = response.data.url_existence
+        if (existence) {
+          alert('URL already exists')
+        }
+      })
     },
     deleteBookmarkHandler (bookmark) {
       let answer = confirm(
