@@ -12,9 +12,7 @@
           </div>
           <div>
             <label for="category">Category</label>
-            <select name id @change="selectCategory($event)">
-              <option v-for="(ctg, ctgKey) in flattedCategories" :value="ctg.id" :key="ctgKey">{{ctg.name}}</option>
-            </select>
+            <treeselect v-model='categoryID' :options='categories' />
           </div>
           <div>
             <label for>Description</label>
@@ -64,10 +62,14 @@ import CategoryList from "./components/bookmarks/CategoryList";
 import Dropdown from "./components/common/dropdown";
 import Modal from "./components/common/modal";
 import Cookies from "js-cookie";
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
 import {flatCategories} from "./utils/utils.js"
 
 export default {
   components: {
+    Treeselect,
     Navbar,
     BookmarkList,
     CategoryList,
@@ -144,7 +146,7 @@ export default {
       (this.url = ""), (this.title = ""), (this.description = "");
     },
     selectCategoryHandler(catg) {
-      this.$store.dispatch('bookmarks/getBookmarksByCategory', catg.name)
+      this.$store.dispatch('bookmarks/getBookmarksByCategory', catg.label)
       this.$store.dispatch('bookmarks/changeActiveCategory', catg)
     },
     selectCategory(event) {

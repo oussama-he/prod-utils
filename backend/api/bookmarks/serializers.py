@@ -5,12 +5,13 @@ from .models import Category, Bookmark
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    subCategories = serializers.ListSerializer(source="children", required=False, child=RecursiveField(),
+    children = serializers.ListSerializer(required=False, child=RecursiveField(),
                                                read_only=True)
-
+    label = serializers.CharField(source='name')
+    
     class Meta:
         model = Category
-        fields = ['name', 'id', 'subCategories']
+        fields = ['label', 'id', 'children']
 
 
 class BookmarkListSerializer(serializers.ModelSerializer):

@@ -9,13 +9,13 @@
     <div class="category-title" @click="catgClicked">
       <span>
         <i :class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"></i>
-        {{category.name}}
+        {{category.label}}
       </span>
     </div>
 
     <ul class="sub-category" v-if="expanded && hasSubCategories">
       <category-item
-        v-for="(subCatg, subCatgIdx) in category.subCategories"
+        v-for="(subCatg, subCatgIdx) in category.children"
         :category="subCatg"
         :key="subCatgIdx"
         @category-selected="subCategorySelected"
@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     hasSubCategories() {
-      return this.category.subCategories && this.category.subCategories.length;
+      return this.category.children && this.category.children.length;
     }
   }
 };
