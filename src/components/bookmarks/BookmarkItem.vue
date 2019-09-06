@@ -21,16 +21,16 @@
     </div>
     <div class="bookmark-actions" v-show="actionsShow">
       <a href="#">
-        <i class="fa fa-archive"></i>
+        <i class="f-icon fa fa-archive"></i>
       </a>
       <a :href="bookmark.url" target="_blank">
-        <i class="fa fa-external-link-alt"></i>
+        <i class="f-icon fa fa-external-link-alt"></i>
       </a>
       <a href="#" @click="deleteClicked">
-        <i class="fa fa-trash"></i>
+        <i class="f-icon fa fa-trash"></i>
       </a>
       <a href="#">
-        <i class="fa fa-info-circle"></i>
+        <i class="f-icon fa fa-info-circle"></i>
       </a>
     </div>
   </li>
@@ -105,6 +105,10 @@ export default {
 .bookmark-actions {
   display: none;
   padding: 5px 5px;
+}
+
+.f-icon {
+  padding: 2px;
 }
 </style>
 
