@@ -20,6 +20,12 @@ export default {
             return response.data
         })
     },
+    archiveBookmark (payload) {
+        return bookmarksApi.patch(`bookmark/${payload}/`)
+        .then(response => {
+            return response.data
+        })
+    },
     postBookmark (payload) {
         return bookmarksApi.post('bookmark/create/', payload)
         .then(response => {

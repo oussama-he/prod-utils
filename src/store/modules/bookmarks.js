@@ -30,6 +30,12 @@ const actions = {
       commit('deleteBookmark', payload)
     })
   },
+  archiveBookmark ({commit}, payload) {
+    apiService.archiveBookmark(payload)
+    .then(response => {
+      commit('archiveBookmark', payload)
+    })
+  },
   changeActiveCategory({commit}, payload) {
     commit("changeActiveCategory", payload);
   }
@@ -46,6 +52,11 @@ const mutations = {
     return
   },
   deleteBookmark (state, payload) {
+    state.bookmarks = state.bookmarks.filter(
+      bookmark => !(bookmark.id === payload)
+    )
+  },
+  archiveBookmark( state, payload) {
     state.bookmarks = state.bookmarks.filter(
       bookmark => !(bookmark.id === payload)
     )

@@ -26,7 +26,7 @@
         </form>
       </modal>
     
-          <modal title="New Category" v-show="categoryModalOpened" @close="categoryModalOpened=false">
+      <modal title="New Category" v-show="categoryModalOpened" @close="categoryModalOpened=false">
         <form action>
           <div>
             <label>Category name</label>
@@ -49,7 +49,8 @@
     <div class="main">
       <category-list @category-selected="selectCategoryHandler" :categories='categories'></category-list>
       <div class="bookmarks-area">
-        <bookmark-list :bookmarks="bookmarks" @delete-clicked="deleteBookmarkHandler"></bookmark-list>
+        <bookmark-list :bookmarks="bookmarks" @delete-clicked="deleteBookmarkHandler"
+        @archive-clicked="archiveBookmarkHandler"></bookmark-list>
       </div>
     </div>
   </div>
@@ -128,6 +129,13 @@ export default {
         return
         }
       this.$store.dispatch('bookmarks/deleteBookmark', bookmark.id)
+    },
+    archiveBookmarkHandler (bookmark) {
+      let answer = confirm(`Want you to archive this bookmark: \n ${bookmark.title}`)
+      if (!answer) {
+        return
+      }
+      this.$store.dispatch('bookmarks/archiveBookmark', bookmark.id)
     },
     createBookmark() {
       let data = {

@@ -39,6 +39,12 @@ class BookmarkDetailAPIView(APIView):
         bookmark.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def patch(self, request, id, format=None):
+        bookmark = self.get_object(id)
+        bookmark.archived = True
+        bookmark.save()
+        return Response(status=status.HTTP_200_OK)
+
 
 @api_view()
 def get_page_title_view(request, url):

@@ -20,7 +20,7 @@
       </a>
     </div>
     <div class="bookmark-actions" v-show="actionsShow">
-      <a href="#">
+      <a href="#" @click="archiveClicked">
         <i class="f-icon fa fa-archive"></i>
       </a>
       <a :href="bookmark.url" target="_blank">
@@ -51,6 +51,9 @@ export default {
     deleteClicked() {
       this.$emit('delete-clicked', this.bookmark)
       // console.log(typeof this.bookmark.safe)
+    },
+    archiveClicked() {
+      this.$emit('archive-clicked', this.bookmark)
     }
   }
 };
