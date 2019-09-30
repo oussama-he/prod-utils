@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="content-expand">
-    <modal title="New Bookmark" v-show="modalOpened" @close="modalOpened=false">
+    <modal title="New Bookmark" v-if="modalIsOpen=='new-bookmark-modal'" @close='modalIsOpen=false'>
         <form action="/bookmarks/api/" method="post" @submit.prevent="createBookmark">
           <div>
             <label>URL</label>
@@ -26,7 +26,7 @@
         </form>
       </modal>
     
-      <modal title="New Category" v-show="categoryModalOpened" @close="categoryModalOpened=false">
+      <modal title="New Category" v-if="modalIsOpen=='new-category-modal'" @close="modalIsOpen=false">
         <form action>
           <div>
             <label>Category name</label>
@@ -37,10 +37,10 @@
       <navbar>
       <dropdown>
         <template v-slot:dropdown-links>
-          <a href="#" class="dropdown-item" @click="openModal">
+          <a href="#" class="dropdown-item" @click="modalIsOpen='new-bookmark-modal'">
             <i class="fa fa-bookmark"></i> Bookmark
           </a>
-          <a href="#" class="dropdown-item" @click="categoryModalOpened=true">
+          <a href="#" class="dropdown-item" @click="modalIsOpen='new-category-modal'">
             <i class="fa fa-folder"></i> Category
           </a>
         </template>
@@ -50,8 +50,10 @@
       <category-list @category-selected="selectCategoryHandler" :categories='categories'></category-list>
       <div class="bookmarks-area">
         <bookmark-list :bookmarks="bookmarks" @delete-clicked="deleteBookmarkHandler"
-        @archive-clicked="archiveBookmarkHandler"></bookmark-list>
+        @archive-clicked="archiveBookmarkHandler" 
+        @info-clicked="getBookmarkInfoHandler"></bookmark-list>
       </div>
+      <!-- <modal v-show='bookmarkInfo' title='Bookmark Info'>{{bookmarkInfo}}</modal> -->
     </div>
   </div>
 </template>
@@ -79,12 +81,12 @@ export default {
   },
   data() {
     return {
+      modalIsOpen: false,
+      alert: false,
       title: "",
       url: "",
       categoryID: "",
       description: "",
-      modalOpened: true,
-      categoryModalOpened: false,
     };
   },
   computed: {
@@ -97,6 +99,9 @@ export default {
     },
     bookmarks () {
       return this.$store.getters['bookmarks/bookmarks']
+    },
+    bookmarkInfo () {
+      return this.$store.getters['bookmarks/bookmarkInfo']
     }
   },
   methods: {
@@ -136,6 +141,9 @@ export default {
         return
       }
       this.$store.dispatch('bookmarks/archiveBookmark', bookmark.id)
+    },
+    getBookmarkInfoHandler (bookmark) {
+      this.$store.dispatch('bookmarks/getBookmarkInfo', bookmark.id)
     },
     createBookmark() {
       let data = {
