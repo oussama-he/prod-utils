@@ -9,6 +9,7 @@
         :key="bookmarkIdx"
         @delete-clicked="deleteClicked"
         @archive-clicked="archiveClicked"
+        @info-clicked="infoClicked"
       />
     </ul>
   </div>
@@ -37,6 +38,9 @@ export default {
     },
     archiveClicked(bookmark) {
       this.$emit('archive-clicked', bookmark)
+    },
+    infoClicked (bookmark) {
+      this.$emit('info-clicked', bookmark)
     }
   }
 };

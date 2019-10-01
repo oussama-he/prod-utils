@@ -53,7 +53,11 @@
         @archive-clicked="archiveBookmarkHandler" 
         @info-clicked="getBookmarkInfoHandler"></bookmark-list>
       </div>
-      <!-- <modal v-show='bookmarkInfo' title='Bookmark Info'>{{bookmarkInfo}}</modal> -->
+      <modal v-if="modalIsOpen=='bookmark-info-modal'" 
+      title='Bookmark Info'
+      @close="modalIsOpen=false">
+        <bookmarkInfo :data="bookmarkInfo"></bookmarkInfo>
+      </modal>
     </div>
   </div>
 </template>
@@ -64,6 +68,7 @@ import BookmarkList from "./components/bookmarks/BookmarkList";
 import CategoryList from "./components/bookmarks/CategoryList";
 import Dropdown from "./components/common/dropdown";
 import Modal from "./components/common/modal";
+import BookmarkInfo from "./components/bookmarks/BookmarkInfo"
 import Cookies from "js-cookie";
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -77,7 +82,8 @@ export default {
     BookmarkList,
     CategoryList,
     Dropdown,
-    Modal
+    Modal,
+    BookmarkInfo
   },
   data() {
     return {
@@ -143,6 +149,7 @@ export default {
       this.$store.dispatch('bookmarks/archiveBookmark', bookmark.id)
     },
     getBookmarkInfoHandler (bookmark) {
+      this.modalIsOpen = 'bookmark-info-modal'
       this.$store.dispatch('bookmarks/getBookmarkInfo', bookmark.id)
     },
     createBookmark() {
@@ -154,9 +161,6 @@ export default {
       }
       this.$store.dispatch('bookmarks/addBookmark', data)
       this.clearFields()
-    },
-    openModal() {
-      this.modalOpened = true;
     },
     clearFields() {
       (this.url = ""), (this.title = ""), (this.description = "");

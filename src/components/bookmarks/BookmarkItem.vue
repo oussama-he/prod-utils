@@ -29,7 +29,7 @@
       <a href="#" @click="deleteClicked">
         <i class="f-icon fa fa-trash"></i>
       </a>
-      <a href="#">
+      <a href="#" @click="infoClicked">
         <i class="f-icon fa fa-info-circle"></i>
       </a>
     </div>
@@ -54,6 +54,9 @@ export default {
     },
     archiveClicked() {
       this.$emit('archive-clicked', this.bookmark)
+    },
+    infoClicked () {
+      this.$emit('info-clicked', this.bookmark)
     }
   }
 };

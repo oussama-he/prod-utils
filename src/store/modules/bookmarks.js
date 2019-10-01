@@ -5,6 +5,7 @@ const state = {
   bookmarks: [],
   categories: {},
   activeCategory: {},
+  bookmarkInfo: {}
 }
 
 const actions = {
@@ -36,6 +37,12 @@ const actions = {
       commit('archiveBookmark', payload)
     })
   },
+  getBookmarkInfo ({commit}, payload) {
+    apiService.getBookmarkInfo(payload)
+    .then(response => {
+      commit('setBookmarkInfo', response)
+    })
+  },
   changeActiveCategory({commit}, payload) {
     commit("changeActiveCategory", payload);
   }
@@ -47,6 +54,9 @@ const mutations = {
   },
   setBookmarksByCategory (state, payload) {
     state.bookmarks = payload
+  },
+  setBookmarkInfo (state, payload) {
+    state.bookmarkInfo = payload
   },
   addBookmark (state, payload) {
     return
@@ -72,6 +82,9 @@ const getters = {
   },
   bookmarks (state) {
     return state.bookmarks
+  },
+  bookmarkInfo (state) {
+    return state.bookmarkInfo
   }
 }
 export default {

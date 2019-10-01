@@ -26,6 +26,12 @@ export default {
             return response.data
         })
     },
+    getBookmarkInfo (payload) {
+        return bookmarksApi.get(`bookmark/${payload}`)
+        .then(response => {
+            return response.data
+        })
+    },
     postBookmark (payload) {
         return bookmarksApi.post('bookmark/create/', payload)
         .then(response => {

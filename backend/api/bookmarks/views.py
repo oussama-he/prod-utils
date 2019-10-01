@@ -33,6 +33,18 @@ class BookmarkDetailAPIView(APIView):
         except Bookmark.DoesNotExist:
             raise Http404
 
+    def get(self, request, id, format=None):
+        bookmark = self.get_object(id)
+        return Response({
+            'archived': bookmark.archived,
+            'safe': bookmark.safe,
+            'favorited': bookmark.favorited,
+            'lastUpdate': bookmark.updated_at,
+            'bookmarkedAt': bookmark.bookmarked_at,
+            'title': bookmark.title,
+            'url': bookmark.url,
+            'description': bookmark.description,
+            })
 
     def delete(self, request, id, format=None):
         bookmark = self.get_object(id)
