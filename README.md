@@ -131,3 +131,5 @@ This allows for an extremely simple setup without the need for a separate static
 [Cloudfront Setup Wiki](https://github.com/gtalarico/django-vue-template/wiki/Setup-CDN-on-Cloud-Front)
 
 
+### License
+Anyone has the right to use this project in accordance with Islamic law and its values.
