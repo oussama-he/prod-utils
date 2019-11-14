@@ -2,6 +2,15 @@
 
 This project is a set of apps that help you to be more productive.
 
+### Bookmark App
+
+![Bookmarks](./screenshots/bookmarks.png)
+
+
+![New Bookmark Modal](./screenshots/new-bookmark.png)
+
+![Bookmark Info Modal](./screenshots/bookmark-info.png)
+
 It has a clear separation: use Vue, Yarn, and Webpack to handle all frontend logic and assets bundling,
 and use Django with Django REST framework to manage the Data Models, Web API, and serve static files.
 
@@ -120,3 +129,5 @@ and served directly by the CDN.
 This allows for an extremely simple setup without the need for a separate static server.
 
 [Cloudfront Setup Wiki](https://github.com/gtalarico/django-vue-template/wiki/Setup-CDN-on-Cloud-Front)
+
+

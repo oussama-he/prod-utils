@@ -149,5 +149,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     r"^chrome-extension://.*$",
+    r"^localhost"
 ]
 
