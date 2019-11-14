@@ -28,7 +28,6 @@ export default {
   methods: {
     selectedCategory() {
       let category = this.$store.state.activeCategory;
-      // console.log(category);
       if (category) {
         return category.name;
       }
@@ -55,7 +54,6 @@ p.bookmarks-description {
   display: block;
   margin: 20px;
   padding-left: 0;
-  /* border-radius: 5px; */
 }
 
 .bookmarks-title {
