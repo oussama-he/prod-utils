@@ -10,7 +10,7 @@
         <i :class="bookmark.favorite ? 'fa fa-bookmark' : 'far fa-bookmark'"></i>
       </a>
       <a href="#">
-        <i :class="bookmark.safe ? 'fas fa-ban' : 'fas fa-check-circle'"></i>
+        <i :class="bookmark.safe ? 'fas fa-check-circle' : 'fas fa-ban'"></i>
       </a>
       <a :href="bookmark.url" target="_blank">
         {{bookmark.title}}
@@ -50,7 +50,6 @@ export default {
   methods: {
     deleteClicked() {
       this.$emit('delete-clicked', this.bookmark)
-      // console.log(typeof this.bookmark.safe)
     },
     archiveClicked() {
       this.$emit('archive-clicked', this.bookmark)
@@ -65,13 +64,9 @@ export default {
 <style>
 .bookmark-item {
   display: flex;
-  /* justify-content: space-between; */
-  /* flex-direction: row; */
   list-style: none;
-  /* border-top: 1px solid #efefef; */
   padding: 2px 20px;
   border-radius: 5px;
-  /* flex-wrap: wrap; */
 }
 
 .bookmark-item:nth-child(odd) {
@@ -82,7 +77,6 @@ export default {
   background: #fff;
 }
 .bookmark-title {
-  /* width: 75%; */
   padding: 5px 0 5px 5px;
   display: flex;
   flex: 1;
