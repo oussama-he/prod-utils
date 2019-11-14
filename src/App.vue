@@ -1,180 +1,82 @@
 <template>
   <div id="app" class="content-expand">
-    <modal title="New Bookmark" v-if="modalIsOpen=='new-bookmark-modal'" @close='modalIsOpen=false'>
-        <form action="/bookmarks/api/" method="post" @submit.prevent="createBookmark">
-          <div>
-            <label>URL</label>
-            <input name="url" type="url" v-model="url" @change="onChangeUrl" class="form-control">
-          </div>
-          <div>
-            <label for>Title</label>
-            <input type="text" name="title" id="title" v-model="title" class="form-control">
-          </div>
-          <div>
-            <label for="category">Category</label>
-            <treeselect v-model='categoryID' :options='categories' />
-          </div>
-          <div>
-            <label for>Description</label>
-            <textarea name="description" id="description" rows="1" v-model='description' class="form-control"></textarea>
-          </div>
-          <div class="form-check">
-            <input name="safe" class="form-check-input" type="checkbox">
-            <label class="form-check-label">Safe?</label>
-          </div>
-          <input type="submit" value="add">
-        </form>
-      </modal>
-    
-      <modal title="New Category" v-if="modalIsOpen=='new-category-modal'" @close="modalIsOpen=false">
-        <form action>
-          <div>
-            <label>Category name</label>
-            <input name="name" type="text" v-model="url" class="form-control">
-          </div>
-        </form>
-      </modal>
-      <navbar>
-      <dropdown>
-        <template v-slot:dropdown-links>
-          <a href="#" class="dropdown-item" @click="modalIsOpen='new-bookmark-modal'">
-            <i class="fa fa-bookmark"></i> Bookmark
-          </a>
-          <a href="#" class="dropdown-item" @click="modalIsOpen='new-category-modal'">
-            <i class="fa fa-folder"></i> Category
-          </a>
-        </template>
-      </dropdown>
-    </navbar>
+    <AppHeader></AppHeader>
     <div class="main">
-      <category-list @category-selected="selectCategoryHandler" :categories='categories'></category-list>
+      <category-list @category-selected="selectCategoryHandler" :categories="categories"></category-list>
       <div class="bookmarks-area">
-        <bookmark-list :bookmarks="bookmarks" @delete-clicked="deleteBookmarkHandler"
-        @archive-clicked="archiveBookmarkHandler" 
-        @info-clicked="getBookmarkInfoHandler"></bookmark-list>
+        <bookmark-list
+          :bookmarks="bookmarks"
+          @delete-clicked="deleteBookmarkHandler"
+          @archive-clicked="archiveBookmarkHandler"
+          @info-clicked="getBookmarkInfoHandler"
+        ></bookmark-list>
       </div>
-      <modal v-if="modalIsOpen=='bookmark-info-modal'" 
-      title='Bookmark Info'
-      @close="modalIsOpen=false">
-        <bookmarkInfo :data="bookmarkInfo"></bookmarkInfo>
-      </modal>
+      <bookmark-info-modal v-show="modalIsOpen=='bookmark-info-modal'"></bookmark-info-modal>
     </div>
   </div>
 </template>
 
 <script>
-import Navbar from "./components/bookmarks/Navbar";
+import { mapGetters } from "vuex";
+import { Bus } from "@/utils/Bus";
+import AppHeader from "./components/bookmarks/AppHeader";
+import BookmarkInfoModal from "./components/bookmarks/BookmarkInfoModal"
 import BookmarkList from "./components/bookmarks/BookmarkList";
 import CategoryList from "./components/bookmarks/CategoryList";
-import Dropdown from "./components/common/dropdown";
 import Modal from "./components/common/modal";
-import BookmarkInfo from "./components/bookmarks/BookmarkInfo"
 import Cookies from "js-cookie";
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
-import {flatCategories} from "./utils/utils.js"
 
 export default {
   components: {
-    Treeselect,
-    Navbar,
+    AppHeader,
     BookmarkList,
     CategoryList,
-    Dropdown,
     Modal,
-    BookmarkInfo
+    BookmarkInfoModal
   },
   data() {
     return {
       modalIsOpen: false,
       alert: false,
-      title: "",
-      url: "",
-      categoryID: "",
-      description: "",
     };
   },
   computed: {
-    categories () {
-      return this.$store.getters['bookmarks/categories']
-    },
-    flattedCategories () {
-      let catgs = this.$store.getters['bookmarks/categories']
-      return this.flatCategories(catgs)
-    },
-    bookmarks () {
-      return this.$store.getters['bookmarks/bookmarks']
-    },
-    bookmarkInfo () {
-      return this.$store.getters['bookmarks/bookmarkInfo']
-    }
+    ...mapGetters({
+      categories: "bookmarks/categories",
+      bookmarks: "bookmarks/bookmarks"
+    })
   },
   methods: {
-    flatCategories,
-    onChangeUrl() {
-      this.axios
-        .get("/api/bookmarks/get-page-title/" + this.url)
-        .then(response => {
-          let pageTitle = response.data.title;
-          this.title = pageTitle;
-        })
-        .catch(error => {
-          console.log("error when getting page title", error);
-        })
-        
-      this.axios
-      .get(`/api/bookmarks/check-url-existence/${this.url}`)
-      .then(response => {
-        let existence = response.data.url_existence
-        if (existence) {
-          alert('URL already exists')
-        }
-      })
+    getBookmarkInfoHandler(bookmark) {
+      this.modalIsOpen = "bookmark-info-modal";
+      Bus.$emit("open", bookmark);
     },
-    deleteBookmarkHandler (bookmark) {
+    deleteBookmarkHandler(bookmark) {
       let answer = confirm(
         `Want you to delete this bookmark: \n ${bookmark.title}`
       );
       if (!answer) {
-        return
-        }
-      this.$store.dispatch('bookmarks/deleteBookmark', bookmark.id)
+        return;
+      }
+      this.$store.dispatch("bookmarks/deleteBookmark", bookmark.id);
     },
-    archiveBookmarkHandler (bookmark) {
-      let answer = confirm(`Want you to archive this bookmark: \n ${bookmark.title}`)
+    archiveBookmarkHandler(bookmark) {
+      let answer = confirm(
+        `Want you to archive this bookmark: \n ${bookmark.title}`
+      );
       if (!answer) {
-        return
+        return;
       }
-      this.$store.dispatch('bookmarks/archiveBookmark', bookmark.id)
-    },
-    getBookmarkInfoHandler (bookmark) {
-      this.modalIsOpen = 'bookmark-info-modal'
-      this.$store.dispatch('bookmarks/getBookmarkInfo', bookmark.id)
-    },
-    createBookmark() {
-      let data = {
-        title: this.title,
-        url: this.url,
-        category: this.categoryID,
-        description: this.description
-      }
-      this.$store.dispatch('bookmarks/addBookmark', data)
-      this.clearFields()
-    },
-    clearFields() {
-      (this.url = ""), (this.title = ""), (this.description = "");
+      this.$store.dispatch("bookmarks/archiveBookmark", bookmark.id);
     },
     selectCategoryHandler(catg) {
-      this.$store.dispatch('bookmarks/getBookmarksByCategory', catg.label)
-      this.$store.dispatch('bookmarks/changeActiveCategory', catg)
-    },
-    selectCategory(event) {
-      this.categoryID = event.target.value;
+      this.$store.dispatch("bookmarks/getBookmarksByCategory", catg.label);
+      this.$store.dispatch("bookmarks/changeActiveCategory", catg);
     }
   },
-  created () {
-    this.$store.dispatch('bookmarks/getCategories')
+  created() {
+    Bus.$on("close-modal", ()=>this.modalIsOpen=false)
+    this.$store.dispatch("bookmarks/getCategories");
   }
 };
 </script>

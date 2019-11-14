@@ -19,7 +19,7 @@ const actions = {
       commit('setBookmarksByCategory', bookmarks)
     })
   },
-  addBookmark ({commit}, payload) {
+  saveBookmark ({commit}, payload) {
     apiService.postBookmark(payload)
     .then(response => {
       // commit('addBookmark', payload)

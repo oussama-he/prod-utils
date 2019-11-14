@@ -15,10 +15,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class BookmarkListSerializer(serializers.ModelSerializer):
+    bookmarkedAt = serializers.DateTimeField(source="bookmarked_at")
+    lastUpdate = serializers.DateTimeField(source="updated_at")
 
     class Meta:
         model = Bookmark
-        fields = ['id', 'title', 'url', 'safe', 'favorited', 'archived']
+        fields = ['id', 'title', 'url', 'safe', 'favorited', 'archived', 'bookmarkedAt', 'lastUpdate']
         ordering = ['title']
 
 

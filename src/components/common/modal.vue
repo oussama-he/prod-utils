@@ -2,55 +2,72 @@
   <div class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">{{title}}</h2>
-        <i class="fas fa-times" @click="$emit('close')"></i>
+        <h3>{{title}}</h3>
+        <i class="fas fa-times" @click="handleClose"></i>
       </div>
       <div class="modal-body">
-        <slot></slot>
+        <slot name="modal-body">The main content here</slot>
+      </div>
+      <div class="modal-footer">
+        <slot name="modal-footer">A Good Place To Add Some Actions</slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {Bus} from '@/utils/Bus'
 export default {
   props: {
     title: { type: String, default: () => "" }
   },
+  methods: {
+    handleClose() {
+      Bus.$emit('close-modal')
+    }
+  }
 };
 </script>
 
 <style>
 .modal {
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  color: #4a4a4a;
-  display: block;
-  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
-  top: 70px;
-  left: calc(50% - 250px);
+  top:0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #FFF;
+  width: 600px;
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 20px);
+  overflow: auto;
+  border-radius: 0.5em;
 }
 
 .modal-header {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  padding: 1.5rem 1.5rem 0 1.5rem;
+  padding: 1em;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .modal-header i {
-  line-height: 2rem;
   cursor: pointer;
 }
 
-.modal-title {
-  margin-top: 0;
-}
 .modal-body {
-  overflow: auto;
-  height: 70vh;
-  padding: 1.5rem 1.5rem 0 1.5rem;
+  padding: 1em;
+}
+
+.modal-footer {
+  padding: 1em;
+  border-top: 1px solid #dee2e6;
 }
 </style>
