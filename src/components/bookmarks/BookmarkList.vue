@@ -10,6 +10,7 @@
         @delete-clicked="deleteClicked"
         @archive-clicked="archiveClicked"
         @info-clicked="infoClicked"
+        @edit-clicked="editClicked"
       />
     </ul>
   </div>
@@ -40,6 +41,9 @@ export default {
     },
     infoClicked (bookmark) {
       this.$emit('info-clicked', bookmark)
+    },
+    editClicked (bookmark) {
+      this.$emit('edit-clicked', bookmark)
     }
   }
 };

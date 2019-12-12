@@ -20,10 +20,17 @@ const actions = {
     })
   },
   saveBookmark ({commit}, payload) {
-    apiService.postBookmark(payload)
-    .then(response => {
+    if (payload.pk) {
+      apiService.updateBookmark(payload)
+      .then(() => {
+        commit('editBookmark', payload)
+      })
+    } else {
+      apiService.postBookmark(payload)
+      .then(response => {
       // commit('addBookmark', payload)
     })
+    }
   },
   deleteBookmark ({commit}, payload) {
     apiService.deleteBookmark(payload)
@@ -60,6 +67,20 @@ const mutations = {
   },
   addBookmark (state, payload) {
     return
+  },
+  editBookmark(state, payload) {
+    const bookmarkIndex = state.bookmarks.findIndex(bookmark => bookmark.id == payload.pk)
+    if (bookmarkIndex > -1) {
+      const bookmark = state.bookmarks[bookmarkIndex]
+      bookmark.title = payload.title
+      bookmark.category = payload.category
+      bookmark.url = payload.url
+      bookmark.description = payload.description
+      bookmark.safe = payload.safe
+      bookmark.archived = payload.archived
+      bookmark.favorited = payload.favorited
+      state.bookmarks[bookmarkIndex] = bookmark
+    }
   },
   deleteBookmark (state, payload) {
     state.bookmarks = state.bookmarks.filter(

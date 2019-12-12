@@ -32,6 +32,9 @@
       <a href="#" @click="infoClicked">
         <i class="f-icon fa fa-info-circle"></i>
       </a>
+      <a href="#" @click="editClicked">
+        <i class="f-icon fa fa-edit"></i>
+      </a>
     </div>
   </li>
 </template>
@@ -56,6 +59,9 @@ export default {
     },
     infoClicked () {
       this.$emit('info-clicked', this.bookmark)
+    },
+    editClicked () {
+      this.$emit('edit-clicked', this.bookmark)
     }
   }
 };

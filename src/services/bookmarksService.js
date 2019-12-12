@@ -37,5 +37,8 @@ export default {
         .then(response => {
             return response.data
         })
+    },
+    updateBookmark (payload) {
+        return bookmarksApi.put(`bookmark/${payload.pk}/`, payload)
     }
 }

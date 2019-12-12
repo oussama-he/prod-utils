@@ -9,22 +9,25 @@
           @delete-clicked="deleteBookmarkHandler"
           @archive-clicked="archiveBookmarkHandler"
           @info-clicked="getBookmarkInfoHandler"
+          @edit-clicked="editBookmarkHandler"
         ></bookmark-list>
       </div>
-      <bookmark-info-modal v-show="modalIsOpen=='bookmark-info-modal'"></bookmark-info-modal>
     </div>
+    <modal-root></modal-root>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { Bus } from "@/utils/Bus";
+import ModalRoot from "@/components/common/ModalRoot";
 import AppHeader from "./components/bookmarks/AppHeader";
-import BookmarkInfoModal from "./components/bookmarks/BookmarkInfoModal"
+import BookmarkInfo from "@/components/bookmarks/BookmarkInfo";
 import BookmarkList from "./components/bookmarks/BookmarkList";
 import CategoryList from "./components/bookmarks/CategoryList";
-import Modal from "./components/common/modal";
+import Modal from "./components/common/Modal";
 import Cookies from "js-cookie";
+import EditBookmarkForm from "./components/bookmarks/EditBookmarkForm";
 
 export default {
   components: {
@@ -32,12 +35,11 @@ export default {
     BookmarkList,
     CategoryList,
     Modal,
-    BookmarkInfoModal
+    ModalRoot
   },
   data() {
     return {
-      modalIsOpen: false,
-      alert: false,
+      activeCategory: null,
     };
   },
   computed: {
@@ -48,8 +50,27 @@ export default {
   },
   methods: {
     getBookmarkInfoHandler(bookmark) {
-      this.modalIsOpen = "bookmark-info-modal";
-      Bus.$emit("open", bookmark);
+      Bus.$emit("open-modal", {
+        component: BookmarkInfo,
+        title: "Bookmark Info",
+        props: { bookmarkInfo: bookmark }
+      });
+    },
+    editBookmarkHandler(bookmark) {
+      Bus.$emit("open-modal", {
+        component: EditBookmarkForm,
+        title: "Edit Bookmark",
+        props: {
+          pk: bookmark.id,
+          title: bookmark.title,
+          url: bookmark.url,
+          categoryID: this.activeCategory.id,
+          safe: bookmark.safe,
+          description: bookmark.description,
+          archived: bookmark.archived,
+          favorited: bookmark.favorited
+        }
+      });
     },
     deleteBookmarkHandler(bookmark) {
       let answer = confirm(
@@ -70,12 +91,12 @@ export default {
       this.$store.dispatch("bookmarks/archiveBookmark", bookmark.id);
     },
     selectCategoryHandler(catg) {
+      this.activeCategory = catg
       this.$store.dispatch("bookmarks/getBookmarksByCategory", catg.label);
       this.$store.dispatch("bookmarks/changeActiveCategory", catg);
     }
   },
   created() {
-    Bus.$on("close-modal", ()=>this.modalIsOpen=false)
     this.$store.dispatch("bookmarks/getCategories");
   }
 };

@@ -6,7 +6,7 @@
     <div class="actions">
       <dropdown>
         <template v-slot:dropdown-links>
-          <a href="#" class="dropdown-item" @click="modalIsOpen='new-bookmark-modal'">
+          <a href="#" class="dropdown-item" @click="createBookmarkHandler">
             <i class="fa fa-bookmark"></i> Bookmark
           </a>
           <a href="#" class="dropdown-item" @click="modalIsOpen='new-category-modal'">
@@ -15,30 +15,29 @@
         </template>
       </dropdown>
     </div>
-    <new-bookmark-modal v-if="modalIsOpen=='new-bookmark-modal'"></new-bookmark-modal>
   </div>
 </template>
 
 
 <script>
 import Dropdown from "../common/dropdown";
-import NewBookmarkModal from './NewBookmarkModal'
-import {Bus} from '@/utils/Bus'
+import EditBookmarkForm from "./EditBookmarkForm";
+import { Bus } from "@/utils/Bus";
 export default {
-    name: "AppHeader",
-    components: {
-        Dropdown,
-        NewBookmarkModal
-    },
-    data() {
-        return {
-            modalIsOpen: false
-        }
-    },
-    mounted() {
-        Bus.$on('close-modal', ()=>this.modalIsOpen=false)
+  name: "AppHeader",
+  components: {
+    Dropdown,
+  },
+  methods: {
+    createBookmarkHandler() {
+      Bus.$emit("open-modal", {
+        component: EditBookmarkForm,
+        title: "Add Bookmark",
+        props: {}
+      })
     }
-}
+  }
+};
 </script>
 
 <style>

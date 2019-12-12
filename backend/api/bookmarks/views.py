@@ -7,6 +7,8 @@ from rest_framework import status
 from .serializers import CategorySerializer, BookmarkListSerializer, BookmarkCreateSerializer
 from .models import Category, Bookmark
 
+import json
+
 from ..utils.utils import get_page_title
 
 class CategoryListAPIView(ListAPIView):
@@ -57,6 +59,18 @@ class BookmarkDetailAPIView(APIView):
         bookmark.save()
         return Response(status=status.HTTP_200_OK)
 
+    def put(self, request, id):
+        data = json.loads(request.body)
+        Bookmark.objects.filter(pk=id).update(
+            title=data["title"],
+            url=data["url"],
+            category=data["category"],
+            description=data["description"],
+            safe=data["safe"],
+            archived=data["archived"],
+            favorited=data["favorited"]
+        )
+        return Response()
 
 @api_view()
 def get_page_title_view(request, url):

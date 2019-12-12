@@ -1,30 +1,27 @@
 <template>
-  <div class="modal">
-    <div class="modal-content">
+  <div class="modal" v-if="isOpen" @click="$emit('close')">
+    <div class="modal-content" @click.stop>
       <div class="modal-header">
         <h3>{{title}}</h3>
-        <i class="fas fa-times" @click="handleClose"></i>
+        <i class="fas fa-times" @click="$emit('close')"></i>
       </div>
       <div class="modal-body">
         <slot name="modal-body">The main content here</slot>
       </div>
+      <!--
       <div class="modal-footer">
         <slot name="modal-footer">A Good Place To Add Some Actions</slot>
       </div>
+      -->
     </div>
   </div>
 </template>
 
 <script>
-import {Bus} from '@/utils/Bus'
 export default {
   props: {
+    isOpen: {type: Object, default: () => null},
     title: { type: String, default: () => "" }
-  },
-  methods: {
-    handleClose() {
-      Bus.$emit('close-modal')
-    }
   }
 };
 </script>
