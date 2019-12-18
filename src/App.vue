@@ -4,6 +4,11 @@
     <div class="main">
       <category-list @category-selected="selectCategoryHandler" :categories="categories"></category-list>
       <div class="bookmarks-area">
+        <collapse v-if="activeCategory" :title="activeCategory.label">
+          <template v-slot:collapse-body>
+            {{activeCategory.description ? activeCategory.description : "No description provided"}}
+          </template>
+        </collapse>
         <bookmark-list
           :bookmarks="bookmarks"
           @delete-clicked="deleteBookmarkHandler"
@@ -28,6 +33,7 @@ import CategoryList from "./components/bookmarks/CategoryList";
 import Modal from "./components/common/Modal";
 import Cookies from "js-cookie";
 import EditBookmarkForm from "./components/bookmarks/EditBookmarkForm";
+import Collapse from "./components/common/Collapse"
 
 export default {
   components: {
@@ -35,17 +41,14 @@ export default {
     BookmarkList,
     CategoryList,
     Modal,
-    ModalRoot
-  },
-  data() {
-    return {
-      activeCategory: null,
-    };
+    ModalRoot,
+    Collapse
   },
   computed: {
     ...mapGetters({
       categories: "bookmarks/categories",
-      bookmarks: "bookmarks/bookmarks"
+      bookmarks: "bookmarks/bookmarks",
+      activeCategory: "bookmarks/activeCategory"
     })
   },
   methods: {
@@ -91,7 +94,6 @@ export default {
       this.$store.dispatch("bookmarks/archiveBookmark", bookmark.id);
     },
     selectCategoryHandler(catg) {
-      this.activeCategory = catg
       this.$store.dispatch("bookmarks/getBookmarksByCategory", catg.label);
       this.$store.dispatch("bookmarks/changeActiveCategory", catg);
     }
@@ -126,5 +128,9 @@ a {
 }
 .bookmarks-area {
   width: 75%;
+}
+
+.collapse-wrapper {
+  margin: 20px
 }
 </style>

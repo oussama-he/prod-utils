@@ -4,7 +4,7 @@ import apiService from '../../services/bookmarksService'
 const state = {
   bookmarks: [],
   categories: {},
-  activeCategory: {},
+  activeCategory: null,
   bookmarkInfo: {}
 }
 
@@ -51,7 +51,7 @@ const actions = {
     })
   },
   changeActiveCategory({commit}, payload) {
-    commit("changeActiveCategory", payload);
+    commit("CHANGE_ACTIVE_CATEGORY", payload);
   }
 }
 
@@ -92,7 +92,7 @@ const mutations = {
       bookmark => !(bookmark.id === payload)
     )
   },
-  changeActiveCategory(state, payload) {
+  CHANGE_ACTIVE_CATEGORY(state, payload) {
     state.activeCategory = payload
   }
 }
@@ -106,6 +106,9 @@ const getters = {
   },
   bookmarkInfo (state) {
     return state.bookmarkInfo
+  },
+  activeCategory (state) {
+    return state.activeCategory
   }
 }
 export default {

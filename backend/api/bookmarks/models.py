@@ -5,6 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Category(MPTTModel):
     name = models.CharField(max_length=50, verbose_name='Category')
     slug = models.SlugField()
+    description = models.TextField(blank=True, null=True)
     parent = TreeForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name="children")
 
     class Meta:

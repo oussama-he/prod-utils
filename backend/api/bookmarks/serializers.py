@@ -11,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Category
-        fields = ['label', 'id', 'children']
+        fields = ['label', 'id', 'description', 'children']
 
 
 class BookmarkListSerializer(serializers.ModelSerializer):
