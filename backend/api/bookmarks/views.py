@@ -53,12 +53,6 @@ class BookmarkDetailAPIView(APIView):
         bookmark.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def patch(self, request, id, format=None):
-        bookmark = self.get_object(id)
-        bookmark.archived = True
-        bookmark.save()
-        return Response(status=status.HTTP_200_OK)
-
     def put(self, request, id):
         data = json.loads(request.body)
         Bookmark.objects.filter(pk=id).update(

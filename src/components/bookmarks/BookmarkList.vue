@@ -40,11 +40,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.bookmarks-list {
-  display: block;
-  margin: 20px;
-  padding-left: 0;
-}
-</style>

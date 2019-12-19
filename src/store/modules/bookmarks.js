@@ -20,10 +20,11 @@ const actions = {
     })
   },
   saveBookmark ({commit}, payload) {
-    if (payload.pk) {
+    console.log('save bookmark', payload)
+    if (payload.id) {
       apiService.updateBookmark(payload)
       .then(() => {
-        commit('editBookmark', payload)
+        commit('EDIT_BOOKMARK', payload)
       })
     } else {
       apiService.postBookmark(payload)
@@ -38,10 +39,10 @@ const actions = {
       commit('deleteBookmark', payload)
     })
   },
-  archiveBookmark ({commit}, payload) {
-    apiService.archiveBookmark(payload)
-    .then(response => {
-      commit('archiveBookmark', payload)
+  toggleArchiveBookmark ({commit}, bookmark) {
+    apiService.updateBookmark(bookmark)
+    .then(() => {
+      commit('TOGGLE_ARCHIVE_BOOKMARK', bookmark)
     })
   },
   getBookmarkInfo ({commit}, payload) {
@@ -68,8 +69,8 @@ const mutations = {
   addBookmark (state, payload) {
     return
   },
-  editBookmark(state, payload) {
-    const bookmarkIndex = state.bookmarks.findIndex(bookmark => bookmark.id == payload.pk)
+  EDIT_BOOKMARK(state, payload) {
+    const bookmarkIndex = state.bookmarks.findIndex(bookmark => bookmark.id == payload.id)
     if (bookmarkIndex > -1) {
       const bookmark = state.bookmarks[bookmarkIndex]
       bookmark.title = payload.title
@@ -87,10 +88,13 @@ const mutations = {
       bookmark => !(bookmark.id === payload)
     )
   },
-  archiveBookmark( state, payload) {
-    state.bookmarks = state.bookmarks.filter(
-      bookmark => !(bookmark.id === payload)
-    )
+  TOGGLE_ARCHIVE_BOOKMARK( state, bookmark) {
+    for(let item of state.bookmarks) {
+      if (item.id == bookmark.id) {
+        item.archived = bookmark.archived
+        break
+      }
+    }
   },
   CHANGE_ACTIVE_CATEGORY(state, payload) {
     state.activeCategory = payload

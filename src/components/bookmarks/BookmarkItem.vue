@@ -21,7 +21,7 @@
     </div>
     <div class="bookmark-actions" v-show="actionsShow">
       <a href="#" @click="archiveClicked">
-        <i class="f-icon fa fa-archive"></i>
+        <i :class="bookmark.archived ? 'fa fa-undo' : 'fa fa-archive'" class="f-icon"></i>
       </a>
       <a :href="bookmark.url" target="_blank">
         <i class="f-icon fa fa-external-link-alt"></i>

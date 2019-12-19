@@ -81,7 +81,7 @@ export default {
     saveBookmarkHandler() {
       // TODO: do some validations here
       this.saveBookmark({
-        pk: this.pk,
+        id: this.pk,
         title: this.title,
         url: this.url,
         category: this.categoryID,

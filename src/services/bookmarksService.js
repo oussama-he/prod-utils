@@ -20,12 +20,6 @@ export default {
             return response.data
         })
     },
-    archiveBookmark (payload) {
-        return bookmarksApi.patch(`bookmark/${payload}/`)
-        .then(response => {
-            return response.data
-        })
-    },
     getBookmarkInfo (payload) {
         return bookmarksApi.get(`bookmark/${payload}`)
         .then(response => {
@@ -38,7 +32,7 @@ export default {
             return response.data
         })
     },
-    updateBookmark (payload) {
-        return bookmarksApi.put(`bookmark/${payload.pk}/`, payload)
+    updateBookmark (bookmark) {
+        return bookmarksApi.put(`bookmark/${bookmark.id}/`, bookmark)
     }
 }

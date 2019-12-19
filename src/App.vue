@@ -10,12 +10,25 @@
           </template>
         </collapse>
         <bookmark-list
-          :bookmarks="bookmarks"
+          :bookmarks="activeBookmarks"
           @delete-clicked="deleteBookmarkHandler"
-          @archive-clicked="archiveBookmarkHandler"
+          @archive-clicked="toggleArchiveBookmarkHandler"
           @info-clicked="getBookmarkInfoHandler"
           @edit-clicked="editBookmarkHandler"
         ></bookmark-list>
+
+        <collapse v-if="archivedBookmarks.length" title="Archive" style="margin-top: 20px">
+          <template v-slot:collapse-body>
+            <bookmark-list
+              :bookmarks="archivedBookmarks"
+              @delete-clicked="deleteBookmarkHandler"
+              @archive-clicked="toggleArchiveBookmarkHandler"
+              @info-clicked="getBookmarkInfoHandler"
+              @edit-clicked="editBookmarkHandler"
+              style="padding-top: 20px"
+            ></bookmark-list>
+          </template>
+        </collapse>
       </div>
     </div>
     <modal-root></modal-root>
@@ -23,7 +36,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { Bus } from "@/utils/Bus";
 import ModalRoot from "@/components/common/ModalRoot";
 import AppHeader from "./components/bookmarks/AppHeader";
@@ -49,9 +62,22 @@ export default {
       categories: "bookmarks/categories",
       bookmarks: "bookmarks/bookmarks",
       activeCategory: "bookmarks/activeCategory"
-    })
+    }),
+    activeBookmarks() {
+      return this.bookmarks.filter(bookmark => bookmark.archived == false)
+    },
+    archivedBookmarks() {
+      return this.bookmarks.filter(bookmark => bookmark.archived == true)
+    }
   },
   methods: {
+    ...mapActions({
+      getCategories: "bookmarks/getCategories",
+      toggleArchiveBookmark: "bookmarks/toggleArchiveBookmark",
+      getBookmarksByCategory: "bookmarks/getBookmarksByCategory",
+      changeActiveCategory: "bookmarks/changeActiveCategory"
+      
+    }),
     getBookmarkInfoHandler(bookmark) {
       Bus.$emit("open-modal", {
         component: BookmarkInfo,
@@ -84,22 +110,25 @@ export default {
       }
       this.$store.dispatch("bookmarks/deleteBookmark", bookmark.id);
     },
-    archiveBookmarkHandler(bookmark) {
+    toggleArchiveBookmarkHandler(bookmark) {
       let answer = confirm(
-        `Want you to archive this bookmark: \n ${bookmark.title}`
+        `Want you to ${bookmark.archived ? 'restore' : 'archive'} this bookmark: \n ${bookmark.title}`
       );
       if (!answer) {
         return;
       }
-      this.$store.dispatch("bookmarks/archiveBookmark", bookmark.id);
+      // toggle the archived status in front-end
+      bookmark.archived = !bookmark.archived
+      bookmark.category = this.activeCategory.id
+      this.toggleArchiveBookmark(bookmark);
     },
-    selectCategoryHandler(catg) {
-      this.$store.dispatch("bookmarks/getBookmarksByCategory", catg.label);
-      this.$store.dispatch("bookmarks/changeActiveCategory", catg);
+    selectCategoryHandler(category) {
+      this.getBookmarksByCategory(category.label);
+      this.changeActiveCategory(category);
     }
   },
   created() {
-    this.$store.dispatch("bookmarks/getCategories");
+    this.getCategories()
   }
 };
 </script>
@@ -128,9 +157,10 @@ a {
 }
 .bookmarks-area {
   width: 75%;
+  padding: 20px
 }
 
 .collapse-wrapper {
-  margin: 20px
+  margin-bottom: 20px;
 }
 </style>
