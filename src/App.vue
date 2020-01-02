@@ -16,7 +16,6 @@
           @info-clicked="getBookmarkInfoHandler"
           @edit-clicked="editBookmarkHandler"
         ></bookmark-list>
-
         <collapse v-if="archivedBookmarks.length" title="Archive" style="margin-top: 20px">
           <template v-slot:collapse-body>
             <bookmark-list

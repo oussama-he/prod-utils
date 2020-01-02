@@ -16,6 +16,29 @@ class CategoryListAPIView(ListAPIView):
     serializer_class = CategorySerializer
 
 
+class CategoryAPIView(APIView):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        parent = Category.objects.get(pk=data['parent'])
+        Category.objects.create(
+            name=data['label'],
+            parent=parent,
+            description=data['description']
+        )
+        # TODO: send the created instance to the front-end
+        return Response()
+
+    def put(self, request, id):
+        data = json.loads(request.body)
+        Category.objects.filter(pk=id).update(
+            name=data['label'],
+            parent=data['parent'],
+            description=data['description']
+        )
+        return Response()
+
+
 class BookmarkListAPIView(ListAPIView):
     serializer_class = BookmarkListSerializer
 

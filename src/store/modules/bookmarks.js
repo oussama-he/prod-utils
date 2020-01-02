@@ -32,6 +32,19 @@ const actions = {
     })
     }
   },
+  saveCategory ({commit}, category) {
+    if (category.id) {
+      apiService.updateCategory(category)
+      .then(()=> {
+        commit("EDIT_CATEGORY")
+      })
+    } else {
+      apiService.postCategory(category)
+      .then(()=> {
+        commit("ADD_CATEGORY", category)
+      })
+    }
+  },
   deleteBookmark ({commit}, payload) {
     apiService.deleteBookmark(payload)
     .then(response => {
@@ -97,6 +110,13 @@ const mutations = {
   },
   CHANGE_ACTIVE_CATEGORY(state, payload) {
     state.activeCategory = payload
+  },
+  EDIT_CATEGORY(state, category) {
+    // think how you can edit parent of category
+    // and move it to correspond place
+  },
+  ADD_CATEGORY(state, category) {
+    // think how you can add the category in the correspond place
   }
 }
 

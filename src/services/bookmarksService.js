@@ -8,6 +8,12 @@ export default {
             return response.data
         })
     },
+    postCategory(payload) {
+        return bookmarksApi.post('category/', payload)
+    },
+    updateCategory(payload) {
+        return bookmarksApi.put(`categories/${payload.id}/`, payload)
+    },
     fetchBookmarksByCategory (payload) {
         return bookmarksApi.get(`${payload}/`)
         .then(response => {

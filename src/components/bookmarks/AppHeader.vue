@@ -4,12 +4,13 @@
       <input type="text" class="input-search" placeholder="search" />
     </div>
     <div class="actions">
+      <a href="#" v-if="activeCategory" @click="editCategoryHandler"><i class="fa fa-pencil-alt"></i></a>
       <dropdown>
         <template v-slot:dropdown-links>
           <a href="#" class="dropdown-item" @click="createBookmarkHandler">
             <i class="fa fa-bookmark"></i> Bookmark
           </a>
-          <a href="#" class="dropdown-item" @click="modalIsOpen='new-category-modal'">
+          <a href="#" class="dropdown-item" @click="createCategoryHandler">
             <i class="fa fa-folder"></i> Category
           </a>
         </template>
@@ -20,13 +21,20 @@
 
 
 <script>
+import { mapGetters } from "vuex"
 import Dropdown from "../common/dropdown";
 import EditBookmarkForm from "./EditBookmarkForm";
+import EditCategoryForm from "./EditCategoryForm"
 import { Bus } from "@/utils/Bus";
 export default {
   name: "AppHeader",
   components: {
     Dropdown,
+  },
+  computed: {
+    ...mapGetters({
+      activeCategory: "bookmarks/activeCategory"
+    })
   },
   methods: {
     createBookmarkHandler() {
@@ -34,6 +42,25 @@ export default {
         component: EditBookmarkForm,
         title: "Add Bookmark",
         props: {}
+      })
+    },
+    createCategoryHandler() {
+      Bus.$emit("open-modal", {
+        component: EditCategoryForm,
+        title: "Create Category",
+        props: {}
+      })
+    },
+    editCategoryHandler() {
+      Bus.$emit("open-modal", {
+        component: EditCategoryForm,
+        title: "Edit Category",
+        props: {
+          id: this.activeCategory.id,
+          label: this.activeCategory.label,
+          parent: this.activeCategory.parent,
+          description: this.activeCategory.description
+        }
       })
     }
   }
