@@ -1,5 +1,8 @@
-from rest_framework import viewsets
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    CreateAPIView
+)
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,23 +14,13 @@ import json
 
 from ..utils.utils import get_page_title
 
-class CategoryListAPIView(ListAPIView):
+
+class CategoryListAPIView(ListCreateAPIView):
     queryset = Category.objects.filter(parent=None)
     serializer_class = CategorySerializer
 
 
 class CategoryAPIView(APIView):
-
-    def post(self, request):
-        data = json.loads(request.body)
-        parent = Category.objects.get(pk=data['parent'])
-        Category.objects.create(
-            name=data['label'],
-            parent=parent,
-            description=data['description']
-        )
-        # TODO: send the created instance to the front-end
-        return Response()
 
     def put(self, request, id):
         data = json.loads(request.body)

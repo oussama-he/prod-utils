@@ -3,7 +3,7 @@ import bookmarksApi from './api/bookmarks'
 
 export default {
     fetchCategories () {
-        return bookmarksApi.get('categories/')
+        return bookmarksApi.get('category/')
         .then(response => {
             return response.data
         })
