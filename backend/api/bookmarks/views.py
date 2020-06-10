@@ -32,7 +32,7 @@ class BookmarkListAPIView(ListAPIView):
 
     def get_queryset(self):
         category = self.kwargs['category']
-        return Bookmark.objects.filter(category__name=category).order_by('-bookmarked_at')
+        return Bookmark.objects.filter(category__name=category)
 
 
 class BookmarkCreateAPIView(CreateAPIView):

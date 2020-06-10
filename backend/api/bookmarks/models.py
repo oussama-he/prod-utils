@@ -29,5 +29,8 @@ class Bookmark(models.Model):
     favorited = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ["bookmarked_at", ]
+
     def __str__(self):
         return self.title
