@@ -27,7 +27,7 @@ class CategoryAPIDetail(UpdateAPIView):
     lookup_field = 'id'
 
 
-class BookmarkListAPIView(ListAPIView):
+class BookmarkByCategoryAPIList(ListAPIView):
     serializer_class = BookmarkListSerializer
 
     def get_queryset(self):

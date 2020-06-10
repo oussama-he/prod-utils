@@ -15,7 +15,7 @@ export default {
         return bookmarksApi.put(`category/${payload.id}/`, payload)
     },
     fetchBookmarksByCategory (payload) {
-        return bookmarksApi.get(`${payload}/`)
+        return bookmarksApi.get(`category/${payload}/bookmarks`)
         .then(response => {
             return response.data
         })
