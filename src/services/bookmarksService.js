@@ -12,7 +12,7 @@ export default {
         return bookmarksApi.post('category/', payload)
     },
     updateCategory(payload) {
-        return bookmarksApi.put(`categories/${payload.id}/`, payload)
+        return bookmarksApi.put(`category/${payload.id}/`, payload)
     },
     fetchBookmarksByCategory (payload) {
         return bookmarksApi.get(`${payload}/`)

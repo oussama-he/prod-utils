@@ -1,7 +1,8 @@
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
-    CreateAPIView
+    CreateAPIView,
+    UpdateAPIView,
 )
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -20,16 +21,10 @@ class CategoryListAPIView(ListCreateAPIView):
     serializer_class = CategorySerializer
 
 
-class CategoryAPIView(APIView):
-
-    def put(self, request, id):
-        data = json.loads(request.body)
-        Category.objects.filter(pk=id).update(
-            name=data['label'],
-            parent=data['parent'],
-            description=data['description']
-        )
-        return Response()
+class CategoryAPIDetail(UpdateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    lookup_field = 'id'
 
 
 class BookmarkListAPIView(ListAPIView):
