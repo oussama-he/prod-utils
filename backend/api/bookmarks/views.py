@@ -35,7 +35,7 @@ class BookmarkByCategoryAPIList(ListAPIView):
         return Bookmark.objects.filter(category__name=category)
 
 
-class BookmarkCreateAPIView(CreateAPIView):
+class BookmarkAPICreate(CreateAPIView):
     serializer_class = BookmarkCreateSerializer
 
 

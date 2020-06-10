@@ -33,7 +33,7 @@ export default {
         })
     },
     postBookmark (payload) {
-        return bookmarksApi.post('bookmark/create/', payload)
+        return bookmarksApi.post('bookmark/', payload)
         .then(response => {
             return response.data
         })
