@@ -96,7 +96,9 @@ export default {
           safe: bookmark.safe,
           description: bookmark.description,
           archived: bookmark.archived,
-          favorited: bookmark.favorited
+          favorited: bookmark.favorited,
+          bookmarkedAt: bookmark.bookmarkedAt,
+          lastUpdate: bookmark.lastUpdate,
         }
       });
     },

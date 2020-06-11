@@ -92,6 +92,8 @@ const mutations = {
       bookmark.safe = payload.safe
       bookmark.archived = payload.archived
       bookmark.favorited = payload.favorited
+      bookmark.lastUpdate = payload.lastUpdate
+      bookmark.bookmarkedAt = payload.bookmarkedAt
       state.bookmarks[bookmarkIndex] = bookmark
     }
   },
