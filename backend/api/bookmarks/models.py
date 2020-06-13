@@ -30,7 +30,7 @@ class Bookmark(models.Model):
     archived = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ["bookmarked_at", ]
+        ordering = ["-bookmarked_at", ]
 
     def __str__(self):
         return self.title
