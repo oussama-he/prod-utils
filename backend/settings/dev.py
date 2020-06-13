@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'mptt',
+    'django_extensions',
     'backend.api',
     'backend.api.bookmarks',
 ]
