@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .serializers import CategorySerializer, BookmarkListSerializer, BookmarkCreateSerializer
+from .serializers import CategorySerializer, BookmarkSerializer
 from .models import Category, Bookmark
 
 import json
@@ -29,7 +29,7 @@ class CategoryAPIDetail(UpdateAPIView):
 
 
 class BookmarkByCategoryAPIList(ListAPIView):
-    serializer_class = BookmarkListSerializer
+    serializer_class = BookmarkSerializer
 
     def get_queryset(self):
         category = self.kwargs['category']
@@ -37,12 +37,12 @@ class BookmarkByCategoryAPIList(ListAPIView):
 
 
 class BookmarkAPICreate(CreateAPIView):
-    serializer_class = BookmarkCreateSerializer
+    serializer_class = BookmarkSerializer
 
 
 class BookmarkAPIDetail(RetrieveUpdateDestroyAPIView):
     queryset = Bookmark.objects.all()
-    serializer_class = BookmarkListSerializer
+    serializer_class = BookmarkSerializer
     lookup_field = 'id'
 
 

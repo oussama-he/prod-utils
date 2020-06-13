@@ -97,8 +97,8 @@ export default {
           description: bookmark.description,
           archived: bookmark.archived,
           favorited: bookmark.favorited,
-          bookmarkedAt: bookmark.bookmarkedAt,
-          lastUpdate: bookmark.lastUpdate,
+          bookmarked_at: bookmark.bookmarked_at,
+          last_update: bookmark.last_update,
         }
       });
     },

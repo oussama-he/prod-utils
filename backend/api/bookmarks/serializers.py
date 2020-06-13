@@ -14,18 +14,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['label', 'id', 'description', 'children', 'parent']
 
 
-class BookmarkListSerializer(serializers.ModelSerializer):
-    bookmarkedAt = serializers.DateTimeField(source="bookmarked_at")
-    lastUpdate = serializers.DateTimeField(source="updated_at")
+class BookmarkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bookmark
-        fields = ['id', 'title', 'url', 'safe', 'favorited', 'archived', 'description', 'bookmarkedAt', 'lastUpdate']
-        ordering = ['title']
-
-
-class BookmarkCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Bookmark
-        fields = ['title', 'url', 'description', 'category', 'safe']
+        fields = "__all__"

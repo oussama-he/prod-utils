@@ -13,11 +13,11 @@
     </li>
     <li>
       <strong>Bookmarked At:</strong>
-      {{bookmarkInfo.bookmarkedAt | formatDate}}
+      {{bookmarkInfo.bookmarked_at | formatDate}}
     </li>
     <li>
       <strong>Last update:</strong>
-      {{bookmarkInfo.lastUpdate | formatDate}}
+      {{bookmarkInfo.last_update | formatDate}}
     </li>
     <li>
       <strong>Favorited:</strong>
