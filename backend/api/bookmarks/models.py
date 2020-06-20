@@ -5,7 +5,7 @@ from django_extensions.db.fields import AutoSlugField
 
 class Category(MPTTModel):
     name = models.CharField(max_length=50, verbose_name='Category')
-    slug = AutoSlugField(populate_from=["name"])
+    slug = AutoSlugField(populate_from=["name"], unique=True)
     description = models.TextField(blank=True, null=True)
     parent = TreeForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name="children")
 
@@ -22,7 +22,7 @@ class Category(MPTTModel):
 class Bookmark(models.Model):
     url = models.URLField(verbose_name="Bookmark URL", max_length=1000)
     title = models.CharField(max_length=250)
-    slug = AutoSlugField(populate_from=["title"])
+    slug = AutoSlugField(populate_from=["title"], unique=True)
     description = models.TextField(blank=True, null=True)
     category = TreeForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     bookmarked_at = models.DateTimeField(auto_now_add=True, auto_now=False)
