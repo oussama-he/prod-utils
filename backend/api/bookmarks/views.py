@@ -25,15 +25,15 @@ class CategoryListAPIView(ListCreateAPIView):
 class CategoryAPIDetail(UpdateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    lookup_field = 'id'
+    lookup_field = 'slug'
 
 
 class BookmarkByCategoryAPIList(ListAPIView):
     serializer_class = BookmarkSerializer
 
     def get_queryset(self):
-        category = self.kwargs['category']
-        return Bookmark.objects.filter(category__name=category)
+        slug = self.kwargs['slug']
+        return Bookmark.objects.filter(category__slug=slug)
 
 
 class BookmarkAPICreate(CreateAPIView):
@@ -43,7 +43,7 @@ class BookmarkAPICreate(CreateAPIView):
 class BookmarkAPIDetail(RetrieveUpdateDestroyAPIView):
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
-    lookup_field = 'id'
+    lookup_field = 'slug'
 
 
 @api_view()

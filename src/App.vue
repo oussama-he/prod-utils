@@ -99,6 +99,7 @@ export default {
           favorited: bookmark.favorited,
           bookmarked_at: bookmark.bookmarked_at,
           last_update: bookmark.last_update,
+          slug: bookmark.slug,
         }
       });
     },
@@ -109,7 +110,7 @@ export default {
       if (!answer) {
         return;
       }
-      this.$store.dispatch("bookmarks/deleteBookmark", bookmark.id);
+      this.$store.dispatch("bookmarks/deleteBookmark", bookmark);
     },
     toggleArchiveBookmarkHandler(bookmark) {
       let answer = confirm(
@@ -124,7 +125,7 @@ export default {
       this.toggleArchiveBookmark(bookmark);
     },
     selectCategoryHandler(category) {
-      this.getBookmarksByCategory(category.label);
+      this.getBookmarksByCategory(category);
       this.changeActiveCategory(category);
     }
   },

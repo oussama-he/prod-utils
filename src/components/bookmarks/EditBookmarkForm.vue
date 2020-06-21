@@ -50,6 +50,7 @@ export default {
     favorited: {type: Boolean, default: false},
     bookmarked_at: {type: null},
     last_update: {type: null},
+    slug: {type: null},
   },
   computed: {
     ...mapGetters({
@@ -93,6 +94,7 @@ export default {
         favorited: this.favorited,
         bookmarked_at: this.bookmarked_at,
         last_update: this.last_update,
+        slug: this.slug,
       });
       // TODO: when we click submit button on form empty or fields required empty it closes the modal. try to fix this
       Bus.$emit("close-modal");

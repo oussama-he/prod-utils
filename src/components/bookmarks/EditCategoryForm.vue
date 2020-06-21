@@ -40,6 +40,7 @@ export default {
   props: {
     id: { type: Number },
     label: { type: String, default: () => "" },
+    slug: { type: String, default: () => ""},
     parent: { type: Number },
     description: { type: String, default: () => "" }
   },
@@ -52,6 +53,7 @@ export default {
       this.saveCategory({
         id: this.id,
         label: this.label,
+        slug: this.slug,
         parent: this.parent,
         description: this.description
       });
