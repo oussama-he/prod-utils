@@ -58,6 +58,7 @@ export default {
         props: {
           id: this.activeCategory.id,
           label: this.activeCategory.label,
+          slug: this.activeCategory.slug,
           parent: this.activeCategory.parent,
           description: this.activeCategory.description
         }

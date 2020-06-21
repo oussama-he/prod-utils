@@ -14,8 +14,8 @@ const actions = {
       commit('setCategories', categories)
     })
   },
-  getBookmarksByCategory ({commit}, payload) {
-    apiService.fetchBookmarksByCategory(payload).then(bookmarks => {
+  getBookmarksByCategory ({commit}, category) {
+    apiService.fetchBookmarksByCategory(category).then(bookmarks => {
       commit('setBookmarksByCategory', bookmarks)
     })
   },
@@ -45,10 +45,10 @@ const actions = {
       })
     }
   },
-  deleteBookmark ({commit}, payload) {
-    apiService.deleteBookmark(payload)
+  deleteBookmark ({commit}, bookmark) {
+    apiService.deleteBookmark(bookmark)
     .then(response => {
-      commit('deleteBookmark', payload)
+      commit('deleteBookmark', bookmark)
     })
   },
   toggleArchiveBookmark ({commit}, bookmark) {
@@ -57,8 +57,8 @@ const actions = {
       commit('TOGGLE_ARCHIVE_BOOKMARK', bookmark)
     })
   },
-  getBookmarkInfo ({commit}, payload) {
-    apiService.getBookmarkInfo(payload)
+  getBookmarkInfo ({commit}, bookmark) {
+    apiService.getBookmarkInfo(bookmark)
     .then(response => {
       commit('setBookmarkInfo', response)
     })
@@ -99,7 +99,7 @@ const mutations = {
   },
   deleteBookmark (state, payload) {
     state.bookmarks = state.bookmarks.filter(
-      bookmark => !(bookmark.id === payload)
+      bookmark => !(bookmark.id === payload.id)
     )
   },
   TOGGLE_ARCHIVE_BOOKMARK( state, bookmark) {

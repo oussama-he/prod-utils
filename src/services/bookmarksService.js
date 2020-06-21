@@ -12,22 +12,22 @@ export default {
         return bookmarksApi.post('category/', payload)
     },
     updateCategory(payload) {
-        return bookmarksApi.put(`category/${payload.id}/`, payload)
+        return bookmarksApi.put(`category/${payload.slug}/`, payload)
     },
     fetchBookmarksByCategory (payload) {
-        return bookmarksApi.get(`category/${payload}/bookmarks`)
+        return bookmarksApi.get(`category/${payload.slug}/bookmarks`)
         .then(response => {
             return response.data
         })
     },
     deleteBookmark (payload) {
-        return bookmarksApi.delete(`bookmark/${payload}`)
+        return bookmarksApi.delete(`bookmark/${payload.slug}`)
         .then(response => {
             return response.data
         })
     },
     getBookmarkInfo (payload) {
-        return bookmarksApi.get(`bookmark/${payload}`)
+        return bookmarksApi.get(`bookmark/${payload.slug}`)
         .then(response => {
             return response.data
         })
@@ -39,6 +39,6 @@ export default {
         })
     },
     updateBookmark (bookmark) {
-        return bookmarksApi.put(`bookmark/${bookmark.id}/`, bookmark)
+        return bookmarksApi.put(`bookmark/${bookmark.slug}/`, bookmark)
     }
 }
