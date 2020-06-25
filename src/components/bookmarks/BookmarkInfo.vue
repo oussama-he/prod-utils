@@ -17,7 +17,7 @@
     </li>
     <li>
       <strong>Last update:</strong>
-      {{bookmarkInfo.last_update | formatDate}}
+      {{bookmarkInfo.updated_at | formatDate}}
     </li>
     <li>
       <strong>Favorited:</strong>
