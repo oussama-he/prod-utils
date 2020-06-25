@@ -14,6 +14,9 @@ export default {
     updateCategory(payload) {
         return bookmarksApi.put(`category/${payload.slug}/`, payload)
     },
+    deleteCategory(payload) {
+        return bookmarksApi.delete(`category/${payload.slug}/`)
+    },
     fetchBookmarksByCategory (payload) {
         return bookmarksApi.get(`category/${payload.slug}/bookmarks`)
         .then(response => {

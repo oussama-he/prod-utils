@@ -45,6 +45,12 @@ const actions = {
       })
     }
   },
+  deleteCategory ({commit}, category) {
+    apiService.deleteCategory(category)
+    .then(()=> {
+      commit('DELETE_CATEGORY', category)
+    })
+  },
   deleteBookmark ({commit}, bookmark) {
     apiService.deleteBookmark(bookmark)
     .then(response => {
@@ -96,6 +102,9 @@ const mutations = {
       bookmark.bookmarked_at = payload.bookmarked_at
       state.bookmarks[bookmarkIndex] = bookmark
     }
+  },
+  DELETE_CATEGORY (state, category) {
+    state.categories = state.categories.filter(catg => catg.slug !== category.slug)
   },
   deleteBookmark (state, payload) {
     state.bookmarks = state.bookmarks.filter(

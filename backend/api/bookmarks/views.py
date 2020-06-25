@@ -22,7 +22,7 @@ class CategoryListAPIView(ListCreateAPIView):
     serializer_class = CategorySerializer
 
 
-class CategoryAPIDetail(UpdateAPIView):
+class CategoryAPIDetail(RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'slug'

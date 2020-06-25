@@ -4,7 +4,10 @@
       <input type="text" class="input-search" placeholder="search" />
     </div>
     <div class="actions">
-      <a href="#" v-if="activeCategory" @click="editCategoryHandler"><i class="fa fa-pencil-alt"></i></a>
+      <div v-if="activeCategory" style="display:inline">
+        <a href="#" @click="editCategoryHandler"><i class="fa fa-pencil-alt"></i></a>
+        <a href="#" @click="deleteCategoryHandler"><i class="fa fa-trash-alt"></i></a>
+      </div>
       <dropdown>
         <template v-slot:dropdown-links>
           <a href="#" class="dropdown-item" @click="createBookmarkHandler">
@@ -21,7 +24,7 @@
 
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import Dropdown from "../common/dropdown";
 import EditBookmarkForm from "./EditBookmarkForm";
 import EditCategoryForm from "./EditCategoryForm"
@@ -37,6 +40,9 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      deleteCategory: 'bookmarks/deleteCategory',
+    }),
     createBookmarkHandler() {
       Bus.$emit("open-modal", {
         component: EditBookmarkForm,
@@ -63,6 +69,10 @@ export default {
           description: this.activeCategory.description
         }
       })
+    },
+    deleteCategoryHandler(){
+      const answer = confirm(`Want you to delete this ${this.activeCategory.label} category?`)
+      if (answer) this.deleteCategory(this.activeCategory)
     }
   }
 };
