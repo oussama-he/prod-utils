@@ -27,8 +27,8 @@ const actions = {
       })
     } else {
       apiService.postBookmark(bookmark)
-      .then(() => {
-      commit('ADD_BOOKMARK', bookmark)
+      .then((bookmark) => {
+        commit('ADD_BOOKMARK', bookmark)
     })
     }
   },
@@ -85,7 +85,7 @@ const mutations = {
     state.bookmarkInfo = payload
   },
   ADD_BOOKMARK (state, bookmark) {
-    state.bookmarks.unshift(bookmark)
+    if (state.activeCategory && state.activeCategory.id == bookmark.category) state.bookmarks.unshift(bookmark)
   },
   EDIT_BOOKMARK(state, payload) {
     const bookmarkIndex = state.bookmarks.findIndex(bookmark => bookmark.id == payload.id)
