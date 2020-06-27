@@ -5,6 +5,7 @@
     </div>
     <div class="actions">
       <div v-if="activeCategory" style="display:inline">
+        <a href="#" @click="getCategoryInfoHandler"><i class="fas fa-info-circle"></i></a>
         <a href="#" @click="editCategoryHandler"><i class="fa fa-pencil-alt"></i></a>
         <a href="#" @click="deleteCategoryHandler"><i class="fa fa-trash-alt"></i></a>
       </div>
@@ -28,6 +29,7 @@ import { mapGetters, mapActions } from "vuex"
 import Dropdown from "../common/dropdown";
 import EditBookmarkForm from "./EditBookmarkForm";
 import EditCategoryForm from "./EditCategoryForm"
+import CategoryInfo from "./CategoryInfo"
 import { Bus } from "@/utils/Bus";
 export default {
   name: "AppHeader",
@@ -36,7 +38,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      activeCategory: "bookmarks/activeCategory"
+      activeCategory: "bookmarks/activeCategory",
+      bookmarks: "bookmarks/bookmarks",
     })
   },
   methods: {
@@ -73,7 +76,14 @@ export default {
     deleteCategoryHandler(){
       const answer = confirm(`Want you to delete this ${this.activeCategory.label} category?`)
       if (answer) this.deleteCategory(this.activeCategory)
-    }
+    },
+    getCategoryInfoHandler() {
+      Bus.$emit("open-modal", {
+        component: CategoryInfo,
+        title: "About Category",
+        props: { category: this.activeCategory, bookmarkCount: this.bookmarks.length }
+      })
+    },
   }
 };
 </script>
