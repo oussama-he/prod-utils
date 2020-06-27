@@ -104,7 +104,18 @@ const mutations = {
     }
   },
   DELETE_CATEGORY (state, category) {
+    function deleteCategory(catgs) {
+      for(const catg of catgs) {
+        const catgCount = catg.children.length
+        catg.children = catg.children.filter(element => element.slug !== category.slug)
+        if (catg.children.length === catgCount) deleteCategory(catg.children)
+        else break
+      }
+    }
+    const categoriesCount = state.categories.length
     state.categories = state.categories.filter(catg => catg.slug !== category.slug)
+    if (categoriesCount === state.categories.length) deleteCategory(state.categories)
+
   },
   deleteBookmark (state, payload) {
     state.bookmarks = state.bookmarks.filter(
