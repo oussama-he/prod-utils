@@ -40,7 +40,7 @@ const actions = {
       })
     } else {
       apiService.postCategory(category)
-      .then(()=> {
+      .then((category)=> {
         commit("ADD_CATEGORY", category)
       })
     }
@@ -127,7 +127,18 @@ const mutations = {
     // and move it to correspond place
   },
   ADD_CATEGORY(state, category) {
-    // think how you can add the category in the correspond place
+    function addCategory(catgs) {
+      for(const catg of catgs) {
+        if (category.parent === catg.id ) {
+          catg.children.unshift(category)
+          return
+        } else {
+          addCategory(catg.children)
+        }
+      }
+    }
+    if (category.parent) addCategory(state.categories)
+    else state.categories.unshift(category)
   }
 }
 

@@ -10,6 +10,7 @@ export default {
     },
     postCategory(payload) {
         return bookmarksApi.post('category/', payload)
+        .then(response => response.data)
     },
     updateCategory(payload) {
         return bookmarksApi.put(`category/${payload.slug}/`, payload)
