@@ -5,6 +5,7 @@ const state = {
   bookmarks: [],
   categories: {},
   activeCategory: null,
+  category: null,
   bookmarkInfo: {}
 }
 
@@ -14,8 +15,14 @@ const actions = {
       commit('setCategories', categories)
     })
   },
-  getBookmarksByCategory ({commit}, category) {
-    apiService.fetchBookmarksByCategory(category).then(bookmarks => {
+  getCategory ({commit}, slug) {
+    apiService.fetchCategory(slug)
+    .then(category => {
+      commit("SET_CATEGORY", category)
+    })
+  },
+  getBookmarksByCategory ({commit}, slug) {
+    apiService.fetchBookmarksByCategory(slug).then(bookmarks => {
       commit('setBookmarksByCategory', bookmarks)
     })
   },
@@ -137,6 +144,9 @@ const mutations = {
     // think how you can edit parent of category
     // and move it to correspond place
   },
+  SET_CATEGORY(state, category) {
+    state.category = category
+  },
   ADD_CATEGORY(state, category) {
     function addCategory(catgs) {
       for(const catg of catgs) {
@@ -156,6 +166,9 @@ const mutations = {
 const getters = {
   categories (state) {
     return state.categories
+  },
+  category (state) {
+    return state.category
   },
   bookmarks (state) {
     return state.bookmarks

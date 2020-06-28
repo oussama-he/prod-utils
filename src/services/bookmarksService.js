@@ -12,14 +12,18 @@ export default {
         return bookmarksApi.post('category/', payload)
         .then(response => response.data)
     },
+    fetchCategory(slug) {
+        return bookmarksApi.get(`category/${slug}/`)
+        .then(response => response.data)
+    },
     updateCategory(payload) {
         return bookmarksApi.put(`category/${payload.slug}/`, payload)
     },
     deleteCategory(payload) {
         return bookmarksApi.delete(`category/${payload.slug}/`)
     },
-    fetchBookmarksByCategory (payload) {
-        return bookmarksApi.get(`category/${payload.slug}/bookmarks`)
+    fetchBookmarksByCategory (slug) {
+        return bookmarksApi.get(`category/${slug}/bookmarks`)
         .then(response => {
             return response.data
         })
