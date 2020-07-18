@@ -71,10 +71,7 @@ export default {
           title: bookmark.title,
           url: bookmark.url,
           categoryID: this.category.id,
-          safe: bookmark.safe,
           description: bookmark.description,
-          archived: bookmark.archived,
-          favorited: bookmark.favorited,
           bookmarked_at: bookmark.bookmarked_at,
           last_update: bookmark.last_update,
           slug: bookmark.slug,
@@ -83,8 +80,9 @@ export default {
     },
   },
   mounted() {
-    this.getCategory(this.$route.params.category);
-    this.getBookmarks(this.$route.params.category);
+    const categorySlug = this.$route.params.category;
+    this.getCategory(categorySlug);
+    this.getBookmarks(categorySlug);
   }
 };
 </script>

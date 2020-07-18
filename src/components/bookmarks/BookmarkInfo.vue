@@ -19,18 +19,6 @@
       <strong>Last update:</strong>
       {{bookmarkInfo.updated_at | formatDate}}
     </li>
-    <li>
-      <strong>Favorited:</strong>
-      {{bookmarkInfo.favorited}}
-    </li>
-    <li>
-      <strong>Safe:</strong>
-      <i :class="bookmarkInfo.safe ? 'fas fa-check-circle' : 'fas fa-ban'"></i>
-    </li>
-    <li>
-      <strong>Archived:</strong>
-      {{bookmarkInfo.archived}}
-    </li>
     <li v-if="bookmarkInfo.description">
       <strong>Description:</strong>
       {{bookmarkInfo.description}}

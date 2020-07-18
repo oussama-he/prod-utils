@@ -27,9 +27,6 @@ class Bookmark(models.Model):
     category = TreeForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     bookmarked_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
-    safe = models.BooleanField(default=False)
-    favorited = models.BooleanField(default=False)
-    archived = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-bookmarked_at", ]

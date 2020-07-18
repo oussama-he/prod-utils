@@ -6,7 +6,6 @@
         :bookmark="bookmark"
         :key="bookmarkIdx"
         @delete-clicked="deleteClicked"
-        @archive-clicked="archiveClicked"
         @info-clicked="infoClicked"
         @edit-clicked="editClicked"
       />
@@ -27,9 +26,6 @@ export default {
   methods: {
     deleteClicked(bookmark) {
       this.$emit('delete-clicked', bookmark)
-    },
-    archiveClicked(bookmark) {
-      this.$emit('archive-clicked', bookmark)
     },
     infoClicked (bookmark) {
       this.$emit('info-clicked', bookmark)

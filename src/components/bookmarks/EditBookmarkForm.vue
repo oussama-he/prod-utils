@@ -22,10 +22,6 @@
         class="form-control"
       ></textarea>
     </div>
-    <div class="form-check">
-      <input name="safe" class="form-check-input" type="checkbox" v-model="safe" />
-      <label class="form-check-label">Safe?</label>
-    </div>
     <input type="submit" value="Save" />
   </form>
 </template>
@@ -45,9 +41,6 @@ export default {
     title: {type: String, default: ""},
     categoryID: {type: Number},
     description: {type: String, default: ""},
-    safe: {type: Boolean, default: false},
-    archived: {type: Boolean, default: false},
-    favorited: {type: Boolean, default: false},
     bookmarked_at: {type: null},
     last_update: {type: null},
     slug: {type: null},
@@ -89,9 +82,6 @@ export default {
         url: this.url,
         category: this.categoryID,
         description: this.description,
-        safe: this.safe,
-        archived: this.archived,
-        favorited: this.favorited,
         bookmarked_at: this.bookmarked_at,
         last_update: this.last_update,
         slug: this.slug,

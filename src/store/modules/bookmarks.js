@@ -70,12 +70,6 @@ const actions = {
       commit('deleteBookmark', bookmark)
     })
   },
-  toggleArchiveBookmark ({commit}, bookmark) {
-    apiService.updateBookmark(bookmark)
-    .then(() => {
-      commit('TOGGLE_ARCHIVE_BOOKMARK', bookmark)
-    })
-  },
   getBookmarkInfo ({commit}, bookmark) {
     apiService.getBookmarkInfo(bookmark)
     .then(response => {
@@ -108,9 +102,6 @@ const mutations = {
       bookmark.category = payload.category
       bookmark.url = payload.url
       bookmark.description = payload.description
-      bookmark.safe = payload.safe
-      bookmark.archived = payload.archived
-      bookmark.favorited = payload.favorited
       bookmark.last_update = payload.last_update
       bookmark.bookmarked_at = payload.bookmarked_at
       state.bookmarks[bookmarkIndex] = bookmark
@@ -134,14 +125,6 @@ const mutations = {
     state.bookmarks = state.bookmarks.filter(
       bookmark => !(bookmark.id === payload.id)
     )
-  },
-  TOGGLE_ARCHIVE_BOOKMARK( state, bookmark) {
-    for(let item of state.bookmarks) {
-      if (item.id == bookmark.id) {
-        item.archived = bookmark.archived
-        break
-      }
-    }
   },
   CHANGE_ACTIVE_CATEGORY(state, payload) {
     state.activeCategory = payload

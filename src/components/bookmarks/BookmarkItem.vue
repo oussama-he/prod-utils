@@ -1,17 +1,12 @@
 <template>
   <li
-    @click="selectedCat = bookmark"
     class="bookmark-item"
     @mouseover="actionsShow = true"
     @mouseleave="actionsShow = false"
   >
     <div class="bookmark-title">
-      <a href="#">
-        <i :class="bookmark.favorite ? 'fa fa-bookmark' : 'far fa-bookmark'"></i>
-      </a>
-      <a href="#">
-        <i :class="bookmark.safe ? 'fas fa-check-circle' : 'fas fa-ban'"></i>
-      </a>
+      <i class="fas fa-bookmark"></i>
+
       <a :href="bookmark.url" target="_blank">
         {{bookmark.title}}
         <span class="url" v-show="actionsShow">
@@ -20,9 +15,6 @@
       </a>
     </div>
     <div class="bookmark-actions" v-show="actionsShow">
-      <a href="#" @click="archiveClicked" title="Archive bookmark">
-        <i :class="bookmark.archived ? 'fa fa-undo' : 'fa fa-archive'" class="f-icon"></i>
-      </a>
       <a :href="bookmark.url" target="_blank" title="Go to site">
         <i class="f-icon fa fa-external-link-alt"></i>
       </a>
@@ -53,9 +45,6 @@ export default {
   methods: {
     deleteClicked() {
       this.$emit('delete-clicked', this.bookmark)
-    },
-    archiveClicked() {
-      this.$emit('archive-clicked', this.bookmark)
     },
     infoClicked () {
       this.$emit('info-clicked', this.bookmark)
