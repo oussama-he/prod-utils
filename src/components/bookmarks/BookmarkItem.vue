@@ -20,19 +20,19 @@
       </a>
     </div>
     <div class="bookmark-actions" v-show="actionsShow">
-      <a href="#" @click="archiveClicked">
+      <a href="#" @click="archiveClicked" title="Archive bookmark">
         <i :class="bookmark.archived ? 'fa fa-undo' : 'fa fa-archive'" class="f-icon"></i>
       </a>
-      <a :href="bookmark.url" target="_blank">
+      <a :href="bookmark.url" target="_blank" title="Go to site">
         <i class="f-icon fa fa-external-link-alt"></i>
       </a>
-      <a href="#" @click="deleteClicked">
+      <a href="#" @click="deleteClicked" title="Delete bookmark">
         <i class="f-icon fa fa-trash"></i>
       </a>
-      <a href="#" @click="infoClicked">
+      <a href="#" @click="infoClicked" title="Info about bookmark">
         <i class="f-icon fa fa-info-circle"></i>
       </a>
-      <a href="#" @click="editClicked">
+      <a href="#" @click="editClicked" title="Edit bookmark">
         <i class="f-icon fa fa-edit"></i>
       </a>
     </div>

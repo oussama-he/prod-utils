@@ -5,16 +5,16 @@
     </div>
     <div class="actions">
       <div v-if="activeCategory" class="category-actions">
-        <a href="#" @click="getCategoryInfoHandler"><i class="fas fa-info-circle"></i></a>
-        <a href="#" @click="editCategoryHandler"><i class="fa fa-pencil-alt"></i></a>
-        <a href="#" @click="deleteCategoryHandler"><i class="fa fa-trash-alt"></i></a>
+        <a href="#" @click="getCategoryInfoHandler" title="Info about category"><i class="fas fa-info-circle"></i></a>
+        <a href="#" @click="editCategoryHandler" title="Edit category"><i class="fa fa-pencil-alt"></i></a>
+        <a href="#" @click="deleteCategoryHandler" title="Delete category"><i class="fa fa-trash-alt"></i></a>
       </div>
-      <dropdown>
+      <dropdown title="New ...">
         <template v-slot:dropdown-links>
-          <a href="#" class="dropdown-item" @click="createBookmarkHandler">
+          <a href="#" class="dropdown-item" @click="createBookmarkHandler" title="New bookmark">
             <i class="fa fa-bookmark"></i> Bookmark
           </a>
-          <a href="#" class="dropdown-item" @click="createCategoryHandler">
+          <a href="#" class="dropdown-item" @click="createCategoryHandler" title="New category">
             <i class="fa fa-folder"></i> Category
           </a>
         </template>
