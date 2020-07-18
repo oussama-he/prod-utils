@@ -61,16 +61,11 @@ export default {
       })
     },
     editCategoryHandler() {
+      const category = JSON.parse(JSON.stringify(this.activeCategory))
       Bus.$emit("open-modal", {
         component: EditCategoryForm,
         title: "Edit Category",
-        props: {
-          id: this.activeCategory.id,
-          label: this.activeCategory.label,
-          slug: this.activeCategory.slug,
-          parent: this.activeCategory.parent,
-          description: this.activeCategory.description
-        }
+        props: {category}
       })
     },
     deleteCategoryHandler(){

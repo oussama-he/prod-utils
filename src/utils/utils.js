@@ -1,13 +1,20 @@
-export function flatCategories(array) {
-    let result = [];
-    if (array.length === undefined) {
-      return
-    }
-    array.forEach(catg => {
-      result.push({ id: catg.id, name: catg.name });
-      if (catg.subCategories && catg.subCategories.length) {
-        result = result.concat(this.flatCategories(catg.subCategories));
-      }
-    });
-    return result;
+function removeCategory(categories, category) {
+  const index = categories.findIndex((element) => {
+    return element.slug === category.slug;
+  });
+  if (index > -1) {
+    categories.splice(index, 1)[0];
   }
+  for (const catg of categories) {
+    removeCategory(catg.children, category);
+  }
+}
+
+function placeCategory(categories, category) {
+  for (const catg of categories) {
+    if (catg.id === category.parent) catg.children.push(category);
+    else placeCategory(catg.children, category);
+  }
+}
+
+export { removeCategory, placeCategory };

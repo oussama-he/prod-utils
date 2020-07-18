@@ -1,5 +1,6 @@
 import axios from "axios";
 import apiService from '../../services/bookmarksService'
+import { removeCategory, placeCategory } from "@/utils/utils"
 
 const state = {
   bookmarks: [],
@@ -18,6 +19,7 @@ const actions = {
   getCategory ({commit}, slug) {
     apiService.fetchCategory(slug)
     .then(category => {
+      commit("CHANGE_ACTIVE_CATEGORY", category)
       commit("SET_CATEGORY", category)
     })
   },
@@ -39,11 +41,15 @@ const actions = {
     })
     }
   },
-  saveCategory ({commit}, category) {
+  saveCategory ({commit, dispatch}, category) {
     if (category.id) {
       apiService.updateCategory(category)
       .then(()=> {
-        commit("EDIT_CATEGORY")
+        // update the active category state
+        dispatch("changeActiveCategory", category)
+        // to keep categories sorted
+        dispatch("getCategories")
+        commit("EDIT_CATEGORY", category)
       })
     } else {
       apiService.postCategory(category)
@@ -141,8 +147,11 @@ const mutations = {
     state.activeCategory = payload
   },
   EDIT_CATEGORY(state, category) {
-    // think how you can edit parent of category
-    // and move it to correspond place
+    removeCategory(state.categories, category)
+    // if parent null push category directly
+    if (!category.parent) state.categories.push(category)
+    // else find its parent in categories and push to parent's children
+    else placeCategory(state.categories, category)
   },
   SET_CATEGORY(state, category) {
     state.category = category
