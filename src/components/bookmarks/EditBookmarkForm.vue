@@ -1,19 +1,19 @@
 <template>
   <form action="/bookmarks/api/" method="post" @submit.prevent="saveBookmarkHandler">
     <div>
-      <label>URL</label>
-      <input name="url" type="url" v-model="url" @change="onChangeUrl" class="form-control" />
+      <label for="url">URL</label>
+      <input name="url" type="url" v-model="url" @change="onChangeUrl" id="url" class="form-control" />
     </div>
     <div>
-      <label for>Title</label>
+      <label for="title">Title</label>
       <input type="text" name="title" id="title" v-model="title" class="form-control" />
     </div>
     <div>
-      <label for="category">Category</label>
-      <treeselect v-model="categoryID" :options="categories" />
+      <label for="categories">Category</label>
+      <treeselect v-model="categoryID" :options="categories" id="categories" />
     </div>
     <div>
-      <label for>Description</label>
+      <label for="description">Description</label>
       <textarea
         name="description"
         id="description"

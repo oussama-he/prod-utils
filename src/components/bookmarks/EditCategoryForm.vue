@@ -1,23 +1,25 @@
 <template>
   <form method="post" @submit.prevent="saveCategoryHandler">
     <div>
-      <label for>Label</label>
+      <label for="label">Label</label>
       <input
         type="text"
+        id="label"
         class="form-control"
         v-model="category.label"
         placeholder="Category Label"
       />
     </div>
     <div>
-      <label for>Parent</label>
-      <treeselect v-model="category.parent" :options="clonedCategories" />
+      <label for="parent">Parent</label>
+      <treeselect v-model="category.parent" :options="clonedCategories" id="parent"/>
     </div>
     <div>
-      <label for>Description</label>
+      <label for="description">Description</label>
       <textarea
         v-model="category.description"
         name="description"
+        id="description"
         class="form-control"
         placeholder="Writ a short description here..."
         rows="3"

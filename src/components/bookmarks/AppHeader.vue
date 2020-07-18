@@ -1,7 +1,9 @@
 <template>
   <div class="navbar">
     <div class="search">
-      <input type="text" class="input-search" placeholder="search" />
+      <form action="">
+        <input type="text" class="input-search" placeholder="search" />
+      </form>
     </div>
     <div class="actions">
       <div v-if="activeCategory" class="category-actions">
