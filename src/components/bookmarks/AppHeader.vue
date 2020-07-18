@@ -4,7 +4,7 @@
       <input type="text" class="input-search" placeholder="search" />
     </div>
     <div class="actions">
-      <div v-if="activeCategory" style="display:inline">
+      <div v-if="activeCategory" class="category-actions">
         <a href="#" @click="getCategoryInfoHandler"><i class="fas fa-info-circle"></i></a>
         <a href="#" @click="editCategoryHandler"><i class="fa fa-pencil-alt"></i></a>
         <a href="#" @click="deleteCategoryHandler"><i class="fa fa-trash-alt"></i></a>
@@ -113,5 +113,10 @@ export default {
 
 .actions a {
   padding: 5px;
+}
+
+.category-actions {
+  display: inline;
+  margin-right: 1.2em;
 }
 </style>
