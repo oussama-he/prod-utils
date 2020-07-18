@@ -59,7 +59,7 @@ export default {
       Bus.$emit("open-modal", {
         component: EditCategoryForm,
         title: "Create Category",
-        props: {}
+        props: { category: {} }
       })
     },
     editCategoryHandler() {
