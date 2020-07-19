@@ -1,9 +1,11 @@
 <template>
-  <modal :isOpen="component" :title="title" @close="handleModalClose">
-    <template v-slot:modal-body>
-      <component :is="component" v-bind="props"></component>
-    </template>
-  </modal>
+  <transition name="fade">
+    <modal :isOpen="component" :title="title" @close="handleModalClose">
+      <template v-slot:modal-body>
+        <component :is="component" v-bind="props"></component>
+      </template>
+    </modal>
+  </transition>
 </template>
 
 <script>
