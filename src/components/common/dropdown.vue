@@ -1,11 +1,8 @@
 <template>
-  <div class="dropdown">
-    <i class="fa fa-plus dropdown-btn" 
-    @click="toggleDropdown"
-    style="cursor:pointer"></i>
-
-    <transition name="slide-fade">
-      <div class="dropdown-content" v-if="visible">
+  <div class="dropdown" @mouseenter="visible=true" @mouseleave="visible=false">
+    <i class="fa fa-plus dropdown-btn"></i>
+    <transition name="fade">
+      <div class="dropdown-content" v-show="visible">
         <slot name='dropdown-links'></slot>
       </div>
     </transition>
@@ -27,12 +24,6 @@ export default {
       visible: false
     };
   },
-  methods: {
-    toggleDropdown() {
-      console.log('from toggle dropdown')
-      this.visible = !this.visible;
-    }
-  }
 };
 </script>
 
@@ -41,19 +32,29 @@ export default {
   display: inline-block;
 }
 
+.dropdown-btn {
+  cursor: pointer;
+}
+
 .dropdown-content {
   display: block;
   position: absolute;
-  right: 5px;
-  z-index: 1;
-  max-width: 110px;
-  background-color: #f8f9fa
+  right: 2em;
+  margin-top: 0.5em;
+  padding: 0.5em 1em;
+  z-index: 1000;
+  box-shadow: 0 0 12px rgba(0,0,0,.16),0 8px 24px rgba(0,0,0,.2);
+  background-color: #ffffff;
+  border-radius: 3px;
 }
 
 .dropdown-item {
   display: block;
-  padding: 12px 16px;
   text-decoration: none;
+}
+
+.dropdown-item i.fa {
+  margin-right: 10px;
 }
 
 .fade-enter-active,
