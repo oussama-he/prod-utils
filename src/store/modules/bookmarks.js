@@ -19,6 +19,8 @@ const actions = {
   getCategory ({commit}, slug) {
     apiService.fetchCategory(slug)
     .then(category => {
+      // activeCategory is null when open a path directly (without navigating to it from home or other category)
+      // so we should set one
       commit("CHANGE_ACTIVE_CATEGORY", category)
       commit("SET_CATEGORY", category)
     })
@@ -94,17 +96,10 @@ const mutations = {
   ADD_BOOKMARK (state, bookmark) {
     if (state.activeCategory && state.activeCategory.id == bookmark.category) state.bookmarks.unshift(bookmark)
   },
-  EDIT_BOOKMARK(state, payload) {
-    const bookmarkIndex = state.bookmarks.findIndex(bookmark => bookmark.id == payload.id)
+  EDIT_BOOKMARK(state, bookmark) {
+    const bookmarkIndex = state.bookmarks.findIndex(element => element.id == bookmark.id)
     if (bookmarkIndex > -1) {
-      const bookmark = state.bookmarks[bookmarkIndex]
-      bookmark.title = payload.title
-      bookmark.category = payload.category
-      bookmark.url = payload.url
-      bookmark.description = payload.description
-      bookmark.last_update = payload.last_update
-      bookmark.bookmarked_at = payload.bookmarked_at
-      state.bookmarks[bookmarkIndex] = bookmark
+      state.bookmarks.splice(bookmarkIndex, 1, bookmark)
     }
   },
   DELETE_CATEGORY (state, category) {
