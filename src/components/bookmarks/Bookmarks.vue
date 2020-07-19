@@ -63,18 +63,12 @@ export default {
       });
     },
     editBookmarkHandler(bookmark) {
+
       Bus.$emit("open-modal", {
         component: EditBookmarkForm,
         title: "Edit Bookmark",
         props: {
-          pk: bookmark.id,
-          title: bookmark.title,
-          url: bookmark.url,
-          categoryID: this.category.id,
-          description: bookmark.description,
-          bookmarked_at: bookmark.bookmarked_at,
-          last_update: bookmark.last_update,
-          slug: bookmark.slug,
+          bookmark: {...bookmark},
         }
       });
     },

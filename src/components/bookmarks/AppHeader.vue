@@ -52,7 +52,7 @@ export default {
       Bus.$emit("open-modal", {
         component: EditBookmarkForm,
         title: "Add Bookmark",
-        props: {}
+        props: { bookmark: {} },
       })
     },
     createCategoryHandler() {
