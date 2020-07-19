@@ -1,11 +1,13 @@
 <template>
   <li class="category-item">
-    <i
-      @click="clicked"
-      v-if="hasSubCategories"
-      :class="expanded ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"
-      style="padding-right:15px"
-    ></i>
+    <div
+    style="width:20px;display:inline-block">
+      <i
+        @click="clicked"
+        v-if="hasSubCategories"
+        :class="expanded ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"
+      ></i>
+    </div>
     <div class="category-title" @click="catgClicked">
       <span>
         <i :class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"></i>
@@ -89,6 +91,6 @@ export default {
 }
 
 ul.sub-category {
-  padding-left: 40px;
+  padding-left: 5px;
 }
 </style>
