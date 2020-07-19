@@ -1,16 +1,23 @@
 <template>
-  <div>
+  <div style="height:100%">
     <collapse v-if="category" :title="category.label">
       <template
         v-slot:collapse-body
       >{{category.description ? category.description : "No description provided"}}</template>
     </collapse>
     <bookmark-list
+      v-if="bookmarks.length"
       :bookmarks="bookmarks"
       @delete-clicked="deleteBookmarkHandler"
       @info-clicked="getBookmarkInfoHandler"
       @edit-clicked="editBookmarkHandler"
     ></bookmark-list>
+    <div v-else class="no-bookmarks">
+      <div>
+        <i class="fas fa-bookmark fa-10x"></i>
+        <p class="no-bookmarks--heading">No Bookmarks</p>
+        <p class="no-bookmarks--text">Try creating new ones using plus sign (<i class="fas fa-plus"></i>) at top right of the page</p>
+      </div></div>
   </div>
 </template>
 
@@ -80,3 +87,22 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.no-bookmarks {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  height:80%;
+  text-align: center;
+}
+
+.no-bookmarks--heading {
+  font-size: 2em;
+}
+
+.no-bookmarks--text {
+  color: #656970;
+}
+</style>
