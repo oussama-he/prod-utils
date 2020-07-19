@@ -25,7 +25,9 @@
         rows="3"
       ></textarea>
     </div>
-    <input type="submit" value="Save" />
+    <div style="text-align:right">
+      <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
   </form>
 </template>
 

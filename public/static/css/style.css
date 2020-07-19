@@ -58,3 +58,26 @@ label {
 .form-check-label {
   margin-bottom: 0;
 }
+
+.float-right {
+  float: right !important;
+}
+
+.clear-fix {
+  clear: both;
+}
+
+.btn {
+  font-size: 15px;
+  font-family: "Noto Sans JP", sans-serif;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #2f3c48;
+  border-color: #2f3c48;
+}
