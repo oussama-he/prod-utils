@@ -7,6 +7,7 @@
         <router-view></router-view>
       </main>
     </div>
+    <toast v-if="toast.visible" :msg="toast.message"></toast>
     <modal-root></modal-root>
   </div>
 </template>
@@ -18,6 +19,7 @@ import ModalRoot from "@/components/common/ModalRoot";
 import AppHeader from "./components/bookmarks/AppHeader";
 import CategoryList from "./components/bookmarks/CategoryList";
 import Modal from "./components/common/Modal";
+import Toast from "@/components/common/Toast"
 import Cookies from "js-cookie";
 
 export default {
@@ -26,10 +28,12 @@ export default {
     CategoryList,
     Modal,
     ModalRoot,
+    Toast,
   },
   computed: {
     ...mapGetters({
       categories: "bookmarks/categories",
+      toast: "bookmarks/toast",
     }),
   },
   methods: {

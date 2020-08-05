@@ -7,7 +7,11 @@ const state = {
   categories: {},
   activeCategory: null,
   category: null,
-  bookmarkInfo: {}
+  bookmarkInfo: {},
+  toast: {
+    visible: false,
+    message: '',
+  },
 }
 
 const actions = {
@@ -35,11 +39,13 @@ const actions = {
       apiService.updateBookmark(bookmark)
       .then(() => {
         commit('EDIT_BOOKMARK', bookmark)
+        commit('SHOW_TOAST', {message: "Bookmark edited with success."})
       })
     } else {
       apiService.postBookmark(bookmark)
       .then((bookmark) => {
         commit('ADD_BOOKMARK', bookmark)
+        commit('SHOW_TOAST', {message: "Bookmark created with success."})
     })
     }
   },
@@ -52,11 +58,13 @@ const actions = {
         // to keep categories sorted
         dispatch("getCategories")
         commit("EDIT_CATEGORY", category)
+        commit('SHOW_TOAST', {message: "Category edited with success."})
       })
     } else {
       apiService.postCategory(category)
       .then((category)=> {
         commit("ADD_CATEGORY", category)
+        commit('SHOW_TOAST', {message: "Category created with success."})
       })
     }
   },
@@ -64,12 +72,14 @@ const actions = {
     apiService.deleteCategory(category)
     .then(()=> {
       commit('DELETE_CATEGORY', category)
+      commit('SHOW_TOAST', {message: "Category deleted with success."})
     })
   },
   deleteBookmark ({commit}, bookmark) {
     apiService.deleteBookmark(bookmark)
     .then(response => {
       commit('deleteBookmark', bookmark)
+      commit('SHOW_TOAST', {message: "Bookmark deleted with success."})
     })
   },
   getBookmarkInfo ({commit}, bookmark) {
@@ -147,6 +157,13 @@ const mutations = {
     }
     if (category.parent) addCategory(state.categories)
     else state.categories.unshift(category)
+  },
+  SHOW_TOAST(state, toastConfig) {
+    state.toast.visible = true
+    state.toast.message = toastConfig.message
+    setTimeout(() => {
+      state.toast.visible = false
+    }, 3000);
   }
 }
 
@@ -165,6 +182,9 @@ const getters = {
   },
   activeCategory (state) {
     return state.activeCategory
+  },
+  toast (state) {
+    return state.toast
   }
 }
 export default {
