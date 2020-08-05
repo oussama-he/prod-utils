@@ -1,15 +1,14 @@
 # ProdUtils
 
-This project is a set of apps that help you to be more productive.
+A bookmark app built using VueJS and Django with DRF.
 
-### Bookmark App
-
+![Home](./screenshots/bookmarks-home.png)
 ![Bookmarks](./screenshots/bookmarks.png)
 
 
 ![New Bookmark Modal](./screenshots/new-bookmark.png)
 
-![Bookmark Info Modal](./screenshots/bookmark-info.png)
+![Bookmark Info Modal](./screenshots/new-category.png)
 
 It has a clear separation: use Vue, Yarn, and Webpack to handle all frontend logic and assets bundling,
 and use Django with Django REST framework to manage the Data Models, Web API, and serve static files.
