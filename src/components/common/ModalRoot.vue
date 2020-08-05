@@ -1,11 +1,9 @@
 <template>
-  <transition name="fade">
-    <modal :isOpen="component" :title="title" @close="handleModalClose">
+    <modal :isOpen="!!component" :title="title" @close="handleModalClose">
       <template v-slot:modal-body>
         <component :is="component" v-bind="props"></component>
       </template>
     </modal>
-  </transition>
 </template>
 
 <script>
@@ -27,6 +25,7 @@ export default {
     Bus.$on(
       "open-modal",
       ({ component, title, props = null, closeOnClick=true }) => {
+        this.open = true;
         this.component = component;
         this.title = title;
         this.props = props;

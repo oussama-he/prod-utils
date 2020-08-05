@@ -1,26 +1,28 @@
 <template>
-  <div class="modal" v-if="isOpen" @click="$emit('close')">
-    <div class="modal-content" @click.stop>
-      <div class="modal-header">
-        <h3>{{title}}</h3>
-        <i class="fas fa-times" @click="$emit('close')"></i>
+  <transition name="fade" appear>
+    <div class="modal" v-if="isOpen" @click="$emit('close')">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>{{title}}</h3>
+          <i class="fas fa-times" @click="$emit('close')"></i>
+        </div>
+        <div class="modal-body">
+          <slot name="modal-body">The main content here</slot>
+        </div>
+        <!--
+        <div class="modal-footer">
+          <slot name="modal-footer">A Good Place To Add Some Actions</slot>
+        </div>
+        -->
       </div>
-      <div class="modal-body">
-        <slot name="modal-body">The main content here</slot>
-      </div>
-      <!--
-      <div class="modal-footer">
-        <slot name="modal-footer">A Good Place To Add Some Actions</slot>
-      </div>
-      -->
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
   props: {
-    isOpen: {type: Object, default: () => null},
+    isOpen: {type: Boolean, default: () => false},
     title: { type: String, default: () => "" }
   }
 };
