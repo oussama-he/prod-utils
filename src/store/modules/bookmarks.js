@@ -1,4 +1,3 @@
-import axios from "axios";
 import apiService from '../../services/bookmarksService'
 import { removeCategory, placeCategory } from "@/utils/utils"
 
