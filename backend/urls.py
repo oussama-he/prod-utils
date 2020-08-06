@@ -17,7 +17,7 @@ urlpatterns = [
     # http://localhost:8000/api/admin/
     path('admin/', admin.site.urls),
 
-    path('api/bookmarks/', include('backend.api.bookmarks.urls')),
+    path('api/bookmarks/', include('backend.bookmarks.urls')),
 
 ]
 
