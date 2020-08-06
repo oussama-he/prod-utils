@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'mptt',
     'django_extensions',
-    'backend.api',
-    'backend.api.bookmarks.apps.BookmarksConfig',
+    'backend.bookmarks',
 ]
 
 MIDDLEWARE = [
