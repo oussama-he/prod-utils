@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'mptt',
     'django_extensions',
     'backend.api',
-    'backend.api.bookmarks',
+    'backend.api.bookmarks.apps.BookmarksConfig',
 ]
 
 MIDDLEWARE = [
