@@ -15,7 +15,7 @@
     <div v-else class="no-bookmarks">
       <div>
         <i class="fas fa-bookmark fa-10x"></i>
-        <p class="no-bookmarks--heading">No Bookmarks</p>
+        <h1>No Bookmarks</h1>
         <p class="no-bookmarks--text">Try creating new ones using plus sign (<i class="fas fa-plus"></i>) at top right of the page</p>
       </div></div>
   </div>
@@ -96,10 +96,6 @@ export default {
   width:100%;
   height:80%;
   text-align: center;
-}
-
-.no-bookmarks--heading {
-  font-size: 2em;
 }
 
 .no-bookmarks--text {
